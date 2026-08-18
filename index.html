@@ -333,7 +333,7 @@
 
           <label class="control-row">
             <span class="control-heading"><span>Intensité de courbure</span><output id="arc-output">105 mm</output></span>
-            <input id="arc" class="slider" aria-label="Flèche de la coupole en millimètres" type="range" min="0" max="280" step="1">
+            <input id="arc" class="slider" aria-label="Flèche de la coupole en millimètres" type="range" min="0" max="280" step="2">
             <span class="range-extents"><span>0</span><span>280</span></span>
           </label>
 
@@ -756,36 +756,70 @@
       frameRequest = requestAnimationFrame(() => { frameRequest = 0; render(); });
     }
 
-    /* ============================================ ÉTAT DANS L'URL */
+    /* ============================================ ÉTAT DANS L'URL
+       25 octets encodés en base64url : version, puis pour chaque strate
+       le diamètre au décimètre près, l'index de halo et la flèche au pas
+       de 2 mm, enfin l'espacement, l'itération et le mode. L'adresse tient
+       en 34 caractères au lieu des 70 de la version lisible, et elle reste
+       propre tant que la configuration n'a pas bougé. */
+    const B64 = {
+      enc(bytes) {
+        let raw = "";
+        bytes.forEach(byte => { raw += String.fromCharCode(byte); });
+        return btoa(raw).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      },
+      dec(text) {
+        const raw = atob(text.replace(/-/g, "+").replace(/_/g, "/"));
+        const bytes = new Uint8Array(raw.length);
+        for (let i = 0; i < raw.length; i += 1) bytes[i] = raw.charCodeAt(i);
+        return bytes;
+      }
+    };
+
     function encodeState() {
-      const parts = strata.map(s => `${s.cupola}-${s.halo}-${s.arc}`).join("_");
-      return `#v2;${parts};${hubSpacing};${iteration};${mode}`;
+      const b = new Uint8Array(25);
+      b[0] = 2;
+      strata.forEach((s, i) => {
+        b[1 + i * 3] = Math.round(s.cupola / 10);
+        b[2 + i * 3] = s.halo;
+        b[3 + i * 3] = Math.round(s.arc / 2);
+      });
+      b[22] = hubSpacing;
+      b[23] = iteration;
+      b[24] = mode === "light" ? 1 : 0;
+      return "#c=" + B64.enc(b);
     }
+
     function decodeState(hash) {
-      if (!hash || hash.slice(0, 4) !== "#v2;") return false;
+      if (!hash || hash.slice(0, 3) !== "#c=") return false;
       try {
-        const [, list, spacing, iter, m] = hash.split(";");
-        const items = list.split("_");
-        if (items.length !== 7) return false;
-        strata = items.map((chunk, index) => {
-          const [c, h, a] = chunk.split("-").map(Number);
-          if (![c, h, a].every(Number.isFinite)) throw new Error("valeur invalide");
-          return { id: index + 1, cupola: clamp(c, 320, 900), halo: clamp(h, 0, 6), arc: clamp(a, 0, 280) };
-        });
-        hubSpacing = clamp(Number(spacing) || 44, 36, 72);
-        iteration  = clamp(Number(iter) || 18, 1, 99);
-        mode       = m === "light" ? "light" : "line";
+        const b = B64.dec(hash.slice(3));
+        if (b.length < 25 || b[0] !== 2) return false;
+        strata = Array.from({ length: 7 }, (unused, i) => ({
+          id: i + 1,
+          cupola: clamp(b[1 + i * 3] * 10, 320, 900),
+          halo:   clamp(b[2 + i * 3], 0, 6),
+          arc:    clamp(b[3 + i * 3] * 2, 0, 280)
+        }));
+        hubSpacing = clamp(b[22], 36, 72);
+        iteration  = clamp(b[23], 1, 99);
+        mode = (b[24] & 1) ? "light" : "line";
         return true;
       } catch (error) {
         return false;
       }
     }
+
+    let defaultHash = "";
     let hashTimer = 0;
     function scheduleHash() {
       clearTimeout(hashTimer);
       hashTimer = setTimeout(() => {
-        try { history.replaceState(null, "", encodeState()); } catch (error) { /* file:// */ }
-      }, 220);
+        const encoded = encodeState();
+        const clean = location.pathname + location.search;
+        try { history.replaceState(null, "", encoded === defaultHash ? clean : clean + encoded); }
+        catch (error) { /* file:// */ }
+      }, 250);
     }
 
     /* ==================================================== ÉVÉNEMENTS */
@@ -919,6 +953,7 @@
     });
     controls.halo.setAttribute("aria-label", `Choix du ${LEX.ring} parmi les sept longueurs de cordon coupables`);
 
+    defaultHash = encodeState();     // empreinte de la configuration d'origine
     decodeState(location.hash);
     render();
     // le premier calcul peut tomber avant la mise en page finale des polices
