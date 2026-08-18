@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Configurateur paramétrique des sept coupoles et des sept donuts du luminaire Les 7 Raisons.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#09131c">
+  <meta name="description" content="Configurateur paramétrique des sept coupoles et des sept halos lumineux du luminaire Les 7 Raisons.">
   <title>Les 7 Raisons — Configurateur de strates</title>
   <style>
     :root {
@@ -14,221 +15,238 @@
       --line: #cfc8bc;
       --brass: #ad762e;
       --night: #09131c;
+      --panel: #eeebe3;
+      --edge: #aaa397;
+      --safe-l: env(safe-area-inset-left, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: var(--paper); }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+    html { scroll-behavior: smooth; background: var(--paper); -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; overscroll-behavior-y: none; }
     button, input { font: inherit; }
-    button { color: inherit; }
+    button { color: inherit; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+    img { max-width: 100%; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-    .hero {
-      position: relative;
-      min-height: 540px;
-      height: 72vh;
-      max-height: 790px;
-      overflow: hidden;
+    /* ------------------------------------------- TITRE PUIS IMAGE */
+    .masthead {
+      padding: clamp(46px, 7vw, 104px) max(clamp(22px, 5.6vw, 92px), var(--safe-l))
+               clamp(34px, 4.6vw, 58px) max(clamp(22px, 5.6vw, 92px), var(--safe-l));
       background: var(--night);
-    }
-    .hero-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      filter: saturate(.86) contrast(1.08);
-    }
-    .hero-shade {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(4,10,15,.91) 0%, rgba(4,10,15,.57) 35%, rgba(4,10,15,.06) 69%),
-        linear-gradient(0deg, rgba(4,10,15,.48), transparent 42%);
-    }
-    .hero-copy {
-      position: absolute;
-      left: clamp(28px, 5.6vw, 92px);
-      top: 50%;
-      z-index: 2;
-      max-width: 670px;
+      background-image: radial-gradient(140% 120% at 12% 0%, #1b2b39 0%, #0b1620 60%, #070f16 100%);
       color: #fffaf0;
-      transform: translateY(-50%);
     }
-    .eyebrow {
-      margin: 0 0 18px;
-      color: #e8bc72;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-    }
+    .eyebrow { margin: 0 0 14px; color: #e8bc72; font-size: clamp(9px, 2.6vw, 11px); font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
     .eyebrow.dark { color: var(--brass); }
-    .hero h1 {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(58px, 8vw, 126px);
-      font-weight: 400;
-      letter-spacing: -.055em;
-      line-height: .86;
+    .masthead h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(46px, 11.5vw, 132px); font-weight: 400; letter-spacing: -.055em; line-height: .86; }
+    .masthead h1 em { color: #efb458; font-style: normal; }
+    .hero-lede { max-width: 520px; margin: clamp(18px, 2.4vw, 30px) 0 0; color: rgba(255,250,240,.82); font-family: Georgia, "Times New Roman", serif; font-size: clamp(16px, 4.4vw, 27px); font-style: italic; line-height: 1.4; }
+
+    /* l'image est montrée en entier, à son format, jamais recadrée */
+    .hero-figure { position: relative; margin: 0; background: var(--night); line-height: 0; }
+    .hero-figure img { display: block; width: 100%; height: auto; }
+    .hero-figure::before {
+      content: ""; position: absolute; inset: 0 0 auto; height: 22%;
+      background: linear-gradient(180deg, rgba(7,15,22,.92), rgba(7,15,22,0));
+      pointer-events: none;
     }
-    .hero h1 em { color: #efb458; font-weight: 400; }
-    .hero-lede {
-      max-width: 470px;
-      margin: 30px 0 0;
-      color: rgba(255,250,240,.84);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(18px, 2vw, 27px);
-      font-style: italic;
-      line-height: 1.4;
-    }
-    .hero-index {
-      position: absolute;
-      right: clamp(24px, 4vw, 64px);
-      bottom: 35px;
-      color: rgba(255,255,255,.6);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .2em;
+    .hero-figure figcaption {
+      position: absolute; right: max(20px, var(--safe-r)); bottom: 18px;
+      color: rgba(255,255,255,.55); font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      line-height: 1; text-transform: uppercase;
     }
 
+    /* -------------------------------------------------- CARTOUCHE */
     .project-strip {
       display: grid;
-      grid-template-columns: 1.15fr 1fr 1.25fr .85fr 1.45fr .65fr;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       border-bottom: 1px solid #9e978c;
       background: var(--paper-light);
     }
-    .project-strip > div { min-width: 0; padding: 18px 20px 17px; border-right: 1px solid var(--line); }
+    .project-strip > div { min-width: 0; padding: 14px 16px 13px; border-right: 1px solid var(--line); }
     .project-strip > div:last-child { border-right: 0; }
-    .project-strip span, .project-strip strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .project-strip span { margin-bottom: 6px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-    .project-strip strong { font-size: 11px; letter-spacing: .025em; text-transform: uppercase; }
+    .project-strip span { display: block; margin-bottom: 5px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .project-strip strong { display: block; font-size: 11px; line-height: 1.35; letter-spacing: .025em; text-transform: uppercase; }
 
-    .workspace-section { max-width: 1660px; margin: 0 auto; padding: 76px clamp(20px, 4.5vw, 72px) 90px; }
-    .section-heading { display: grid; grid-template-columns: minmax(0,1fr) minmax(320px,560px); gap: 60px; align-items: end; margin-bottom: 34px; }
-    .section-heading h2 { max-width: 750px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(38px,4.2vw,66px); font-weight: 400; letter-spacing: -.035em; line-height: .98; }
-    .section-note { margin: 0 0 4px; color: #625e56; font-size: 14px; line-height: 1.75; }
+    /* -------------------------------------------------- WORKSPACE */
+    .workspace-section { max-width: 1660px; margin: 0 auto; padding: clamp(38px, 6vw, 76px) clamp(16px, 4.5vw, 72px) clamp(44px, 6vw, 90px); }
+    .section-heading { display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,520px); gap: clamp(18px, 4vw, 60px); align-items: end; margin-bottom: 26px; }
+    .section-heading h2 { max-width: 750px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(30px, 6.4vw, 66px); font-weight: 400; letter-spacing: -.035em; line-height: 1; }
+    .section-note { margin: 0 0 4px; color: #625e56; font-size: clamp(13px, 3.4vw, 14px); line-height: 1.7; }
 
     .configurator-shell {
       display: grid;
-      grid-template-columns: minmax(290px,370px) minmax(0,1fr);
-      min-height: 780px;
-      overflow: hidden;
-      border: 1px solid #aaa397;
+      grid-template-columns: minmax(288px, 352px) minmax(0, 1fr);
+      border: 1px solid var(--edge);
       background: var(--paper-light);
       box-shadow: 0 24px 70px rgba(42,35,26,.08);
     }
-    .controls-panel { display: flex; flex-direction: column; overflow-y: auto; padding: 28px 28px 24px; border-right: 1px solid #aaa397; background: #eeebe3; }
-    .panel-topline, .active-summary, .control-heading, .iteration-row { display: flex; justify-content: space-between; gap: 18px; align-items: center; }
-    .panel-topline { padding-bottom: 17px; border-bottom: 1px solid #bdb6aa; color: #5f5a52; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    /* ------------------------------------------------ PANNEAU */
+    .controls-panel { display: flex; min-width: 0; flex-direction: column; padding: 22px 22px 20px; border-right: 1px solid var(--edge); background: var(--panel); }
+    .panel-topline { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid #bdb6aa; color: #5f5a52; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .panel-topline strong { color: var(--brass); font-size: 13px; }
-    .strata-tabs { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin: 20px 0 25px; }
-    .strata-tabs button { height: 36px; padding: 0; border: 1px solid #c7c0b5; background: transparent; cursor: pointer; font-size: 10px; transition: 160ms ease; }
-    .strata-tabs button:hover, .strata-tabs button:focus-visible { border-color: var(--brass); }
-    .strata-tabs button.active { border-color: var(--ink); background: var(--ink); color: white; }
-    .active-summary { margin-bottom: 31px; padding: 15px 0; border-top: 1px solid #bdb6aa; border-bottom: 1px solid #bdb6aa; }
+
+    .strata-tabs { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 4px; margin: 16px 0 18px; }
+    .strata-tabs button { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0; border: 1px solid #c7c0b5; background: transparent; cursor: pointer; font-size: 11px; font-variant-numeric: tabular-nums; transition: 160ms ease; }
+    .strata-tabs button:hover { border-color: var(--brass); }
+    .strata-tabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+    .strata-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .strata-tabs button.is-clamped::after { content: ""; width: 4px; height: 4px; margin-left: 4px; border-radius: 50%; background: #c07f24; }
+
+    .active-summary { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; margin-bottom: 22px; padding: 13px 0; border-top: 1px solid #bdb6aa; border-bottom: 1px solid #bdb6aa; }
     .active-summary span { color: var(--muted); font-family: Georgia, "Times New Roman", serif; font-size: 13px; font-style: italic; }
     .active-summary strong { font-size: 10px; letter-spacing: .12em; }
-    .control-row { display: block; margin-bottom: 27px; }
-    .control-heading { margin-bottom: 12px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-    .control-heading output { color: var(--brass); font-variant-numeric: tabular-nums; }
-    input[type="range"] { width: 100%; height: 2px; margin: 10px 0 0; appearance: none; border: 0; border-radius: 0; outline: none; background: linear-gradient(to right,var(--brass) 0 var(--range-progress),#c4bdb2 var(--range-progress) 100%); }
-    input[type="range"]::-webkit-slider-thumb { width: 14px; height: 14px; appearance: none; border: 2px solid var(--paper-light); border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 1px var(--brass); cursor: grab; }
-    input[type="range"]::-moz-range-thumb { width: 11px; height: 11px; border: 2px solid var(--paper-light); border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 1px var(--brass); cursor: grab; }
-    .range-extents { display: flex; justify-content: space-between; margin-top: 9px; color: #938d83; font-size: 8px; font-variant-numeric: tabular-nums; }
-    .constraint-status { display: flex; justify-content: space-between; gap: 12px; margin: -2px 0 0; padding: 11px 0 13px; border-top: 1px solid #c5beb3; border-bottom: 1px solid #c5beb3; color: #6d675f; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .control-row { display: block; margin-bottom: 20px; }
+    .control-heading { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .control-heading output { color: var(--brass); font-variant-numeric: tabular-nums; letter-spacing: 0; text-transform: none; white-space: nowrap; }
+    .control-heading output small { color: var(--muted); font-size: 9px; font-weight: 400; }
+
+    .slider { display: block; width: 100%; height: 34px; margin: 2px 0 0; background: transparent; appearance: none; -webkit-appearance: none; }
+    .slider:focus { outline: none; }
+    .slider::-webkit-slider-runnable-track { height: 3px; border-radius: 3px; background: linear-gradient(to right, var(--brass) 0 var(--p, 0%), #c4bdb2 var(--p, 0%) 100%); }
+    .slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: -9.5px; appearance: none; -webkit-appearance: none; border: 3px solid var(--panel); border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 1px var(--brass), 0 2px 5px rgba(0,0,0,.22); cursor: grab; }
+    .slider::-moz-range-track { height: 3px; border-radius: 3px; background: #c4bdb2; }
+    .slider::-moz-range-progress { height: 3px; border-radius: 3px; background: var(--brass); }
+    .slider::-moz-range-thumb { width: 18px; height: 18px; border: 3px solid var(--panel); border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 1px var(--brass); cursor: grab; }
+    .slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--ink); }
+    .slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--ink); }
+    .slider.is-stepped::-webkit-slider-runnable-track { background:
+      linear-gradient(to right, var(--brass) 0 var(--p, 0%), #c4bdb2 var(--p, 0%) 100%),
+      repeating-linear-gradient(to right, transparent 0 calc(16.666% - 1px), #a79f92 calc(16.666% - 1px) 16.666%); }
+    .panel-note { margin: 14px 0 0; color: #7d776e; font-size: 10px; line-height: 1.55; }
+    .range-extents { display: flex; justify-content: space-between; margin-top: -2px; color: #938d83; font-size: 9px; font-variant-numeric: tabular-nums; }
+
+    .constraint-status { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 11px 0 12px; border-top: 1px solid #c5beb3; border-bottom: 1px solid #c5beb3; color: #6d675f; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
     .constraint-status strong { color: #75613e; }
     .constraint-status.active strong, .constraint-status.active span { color: #a56e25; }
-    .mode-block { margin-top: 14px; padding-top: 22px; border-top: 1px solid #c5beb3; }
-    .mode-block > span, .iteration-row label { display: block; margin-bottom: 12px; color: #5f5a52; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .mode-block { margin-top: 18px; padding-top: 18px; border-top: 1px solid #c5beb3; }
+    .block-label { display: block; margin-bottom: 10px; color: #5f5a52; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
     .segmented-control { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #b9b2a7; }
-    .segmented-control button { height: 38px; border: 0; background: transparent; cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .segmented-control button { min-height: 44px; border: 0; background: transparent; cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
     .segmented-control button + button { border-left: 1px solid #b9b2a7; }
-    .segmented-control button.active { background: white; color: var(--brass); }
-    .iteration-row { margin-top: 19px; }
+    .segmented-control button[aria-pressed="true"] { background: #fff; color: var(--brass); }
+    .segmented-control button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+    .switch-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 14px; align-items: center; margin-top: 18px; }
+    .switch-row .block-label { margin: 0; }
+    .switch-row p { flex-basis: 100%; margin: 6px 0 0; color: #7d776e; font-size: 10px; line-height: 1.5; }
+    .switch { position: relative; flex: 0 0 auto; width: 52px; height: 30px; padding: 0; border: 1px solid #b9b2a7; border-radius: 30px; background: #ded9cf; cursor: pointer; transition: 160ms ease; }
+    .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: 160ms ease; }
+    .switch[aria-checked="true"] { border-color: var(--brass); background: var(--brass); }
+    .switch[aria-checked="true"]::after { transform: translateX(22px); }
+    .switch:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+    .iteration-row { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin-top: 16px; }
     .iteration-row label { margin: 0; }
-    .iteration-row input { width: 68px; height: 35px; border: 1px solid #b9b2a7; background: white; text-align: center; font-size: 11px; font-weight: 700; }
-    .panel-actions { display: grid; grid-template-columns: .85fr 1.5fr; gap: 8px; margin-top: auto; padding-top: 25px; }
-    .panel-actions button { min-height: 46px; border: 1px solid var(--ink); cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: 160ms ease; }
-    .reset-button { background: transparent; }
-    .reset-button:hover { background: #e2ded4; }
-    .capture-button { display: flex; gap: 8px; align-items: center; justify-content: center; background: var(--ink); color: white; }
-    .capture-button:hover { background: var(--brass); border-color: var(--brass); }
-    .capture-button svg { width: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
-    .capture-status { min-height: 16px; margin: 9px 0 -9px; font-size: 9px; letter-spacing: .05em; }
+    .iteration-row input { width: 78px; height: 44px; border: 1px solid #b9b2a7; background: #fff; text-align: center; font-size: 12px; font-weight: 700; }
+
+    .panel-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 22px; padding-top: 20px; border-top: 1px solid #c5beb3; }
+    .panel-actions button { display: flex; gap: 7px; align-items: center; justify-content: center; min-height: 48px; padding: 0 8px; border: 1px solid var(--ink); cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: 160ms ease; }
+    .panel-actions button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+    .ghost-button { background: transparent; }
+    .ghost-button:hover { background: #e2ded4; }
+    .capture-button { grid-column: 1 / -1; background: var(--ink); color: #fff; }
+    .capture-button:hover { border-color: var(--brass); background: var(--brass); }
+    .panel-actions svg { flex: 0 0 auto; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+    .capture-status { min-height: 15px; margin: 9px 0 0; font-size: 10px; letter-spacing: .04em; }
     .capture-status.success { color: #7d581e; }
     .capture-status.error { color: #9a3f2d; }
 
-    .drawing-panel { display: flex; min-width: 0; flex-direction: column; background: var(--paper-light); }
-    .drawing { display: block; width: 100%; min-height: 0; flex: 1; }
-    .drawing-caption { display: flex; justify-content: space-between; gap: 12px; padding: 15px 22px; border-top: 1px solid #cfc8bc; color: #6d675f; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-    .svg-kicker, .svg-meta, .dimension-text, .dimension-subtext, .layer-number, .svg-titleblock text { font-family: Arial, Helvetica, sans-serif; }
-    .svg-kicker { fill: #292722; font-size: 12px; font-weight: 700; letter-spacing: 1.7px; }
-    .svg-meta { fill: #ad762e; font-size: 11px; font-weight: 700; letter-spacing: 1.1px; }
-    .svg-rule { stroke: #aaa397; stroke-width: 1; }
-    .cupola-top, .cupola-glow, .donut-shell, .donut-led, .hub-sphere, .hub-crosshair, .hub-center { vector-effect: non-scaling-stroke; transition: 150ms ease; }
-    .cupola-top { fill: none; stroke: #5f5b54; stroke-width: 1.2; stroke-linecap: round; }
-    .cupola-top.selected { stroke: #a56e25; stroke-width: 2; }
-    .cupola-top.clamped:not(.selected) { stroke: #71685c; }
-    .cupola-glow { fill: none; stroke: #f1aa43; stroke-linecap: round; stroke-width: 14; }
-    .donut-shell { fill: rgba(255,255,255,.78); stroke: #8c7b65; stroke-width: 1; }
-    .donut-led { stroke: #d18c2f; stroke-linecap: round; stroke-width: 4; }
-    .hub-sphere { fill: url(#hubSphere); stroke: #7c5322; stroke-width: 1; opacity: .9; }
-    .hub-crosshair { stroke: rgba(70,54,34,.66); stroke-width: .75; }
-    .hub-center { fill: #fff1c6; stroke: #694016; stroke-width: .7; }
-    .layer-number { fill: #a26e29; font-size: 10px; font-weight: 700; }
-    .leader-line { stroke: #c5beb3; stroke-dasharray: 2 4; stroke-width: .7; }
-    .dimension-text { fill: #35322d; font-size: 10px; font-weight: 700; }
-    .dimension-subtext { fill: #8c857b; font-size: 8px; letter-spacing: .3px; }
-    .svg-strate.selected .donut-shell { stroke: #b67825; stroke-width: 1.8; }
-    .svg-strate.selected .donut-led { stroke: #f0a63d; stroke-width: 5; }
-    .light .paper-background { fill: #0a1520; }
-    .light .cupola-top { fill: none; stroke: rgba(255,244,222,.86); }
-    .light .donut-shell { fill: rgba(226,210,185,.1); stroke: rgba(255,225,177,.72); }
-    .light .svg-kicker, .light .dimension-text { fill: #f7ead7; }
-    .light .svg-meta, .light .layer-number { fill: #f1b253; }
-    .light .dimension-subtext, .light .svg-titleblock text { fill: #c4b49e; }
-    .light .svg-rule, .light .leader-line { stroke: #53606a; }
-    .light .hub-sphere { opacity: 1; }
-    .light .hub-crosshair { stroke: rgba(255,226,174,.72); }
-    .light .hub-center { fill: #fff2c7; }
-    .svg-titleblock text { fill: #24221e; font-size: 12px; font-weight: 700; letter-spacing: .45px; }
-    .svg-titleblock .titleblock-label, .svg-titleblock .titleblock-small { fill: #777168; font-size: 8px; letter-spacing: .7px; }
+    /* -------------------------------------------------- DESSIN */
+    .drawing-panel { position: relative; display: flex; min-width: 0; flex-direction: column; background: var(--paper-light); transition: background 160ms ease; }
+    .drawing-frame { position: relative; flex: 1 1 auto; min-height: 0; }
+    .drawing { display: block; width: 100%; height: 100%; touch-action: pan-y; }
+    .drawing-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 14px; padding: 12px clamp(14px, 2vw, 22px); border-top: 1px solid var(--line); color: #6d675f; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .drawing-panel.light { background: #0a1520; }
+    .drawing-panel.light .drawing-caption { border-top-color: #2c3b47; color: #93a3b0; }
 
-    footer { display: flex; justify-content: space-between; align-items: center; padding: 28px clamp(24px,4.5vw,72px); background: #181713; color: #f8f1e5; }
-    footer p { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 20px; letter-spacing: -.02em; }
+    .svg-kicker, .svg-meta, .dim-text, .dim-sub, .layer-number, .svg-titleblock text { font-family: Arial, Helvetica, sans-serif; }
+    .svg-kicker { fill: #292722; font-weight: 700; letter-spacing: 1.4px; }
+    .svg-meta { fill: #ad762e; font-weight: 700; letter-spacing: 1px; }
+    .svg-rule { stroke: #aaa397; stroke-width: 1; }
+    .cupola-top, .cupola-glow, .donut-shell, .donut-led, .led-glow, .hub-center { vector-effect: non-scaling-stroke; }
+    .cupola-top { fill: none; stroke: #5f5b54; stroke-width: 1.2; stroke-linecap: round; }
+    .cupola-top.selected { stroke: #a56e25; stroke-width: 2.4; }
+    .cupola-top.clamped:not(.selected) { stroke: #8d8375; stroke-dasharray: 7 4; }
+    .cupola-glow { fill: none; stroke: #f1aa43; stroke-linecap: round; stroke-width: 13; }
+    .donut-shell { fill: none; stroke: #cbc2b3; stroke-width: .8; }
+    .donut-led { stroke: #d1892a; stroke-linecap: round; stroke-width: 5.5; }
+    .led-glow { stroke: #ffb347; stroke-linecap: round; stroke-width: 15; opacity: .26; }
+    .svg-strate.selected .led-glow { stroke-width: 21; opacity: .4; }
+    .hub-center { fill: #b98a3d; stroke: none; opacity: .55; }
+    .layer-number { fill: #a26e29; font-weight: 700; }
+    .leader-line { stroke: #c5beb3; stroke-dasharray: 2 4; stroke-width: .7; }
+    .dim-text { fill: #35322d; font-weight: 700; }
+    .dim-sub { fill: #8c857b; letter-spacing: .3px; }
+    .svg-strate.selected .donut-shell { stroke: #c39a5c; stroke-width: 1.1; }
+    .svg-strate.selected .donut-led { stroke: #f2a83c; stroke-width: 7; }
+    .svg-titleblock text { fill: #24221e; font-weight: 700; letter-spacing: .4px; }
+    .svg-titleblock .tb-label, .svg-titleblock .tb-small { fill: #777168; letter-spacing: .6px; font-weight: 400; }
+    .hit-strate { fill: transparent; cursor: pointer; }
+
+    .light .paper-background { fill: #0a1520; }
+    .light .cupola-top { stroke: rgba(255,244,222,.86); }
+    .light .cupola-top.clamped:not(.selected) { stroke: rgba(255,244,222,.45); }
+    .light .cupola-top.selected { stroke: #ffcf7d; }
+    .light .donut-shell { fill: none; stroke: rgba(255,225,177,.18); }
+    .light .donut-led { stroke: #ffca70; }
+    .light .svg-kicker, .light .dim-text { fill: #f7ead7; }
+    .light .svg-meta, .light .layer-number { fill: #f1b253; }
+    .light .dim-sub, .light .svg-titleblock text { fill: #c4b49e; }
+    .light .svg-titleblock .tb-label, .light .svg-titleblock .tb-small { fill: #98a6b0; }
+    .light .svg-rule, .light .leader-line { stroke: #53606a; }
+    .light .hub-center { fill: #ffd894; opacity: .7; }
+
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; align-items: center; padding: 24px clamp(16px,4.5vw,72px) calc(24px + var(--safe-b)); background: #181713; color: #f8f1e5; }
+    footer p { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(17px, 4vw, 20px); letter-spacing: -.02em; }
     footer span { color: #bc9153; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 
-    @media (max-width: 1100px) {
-      .project-strip { grid-template-columns: repeat(3,1fr); }
-      .project-strip > div:nth-child(3) { border-right: 0; }
+    /* ============================================ RESPONSIVE */
+    @media (min-width: 901px) {
+      .configurator-shell { min-height: min(820px, 78vh); overflow: hidden; }
+      /* le dessin est premier dans le DOM (pour le sticky mobile) :
+         on le replace explicitement dans la colonne de droite */
+      .controls-panel { grid-column: 1; grid-row: 1; overflow-y: auto; }
+      .drawing-panel  { grid-column: 2; grid-row: 1; }
+    }
+    @media (max-width: 1180px) {
+      .project-strip { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .project-strip > div:nth-child(3n) { border-right: 0; }
       .project-strip > div:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
-      .configurator-shell { grid-template-columns: 320px minmax(0,1fr); }
+      .configurator-shell { grid-template-columns: minmax(276px, 316px) minmax(0,1fr); }
     }
-    @media (max-width: 820px) {
-      .hero { height: 620px; }
-      .hero-image { object-position: 64% center; }
-      .hero-shade { background: linear-gradient(0deg,rgba(4,10,15,.88) 0%,rgba(4,10,15,.22) 80%); }
-      .hero-copy { top: auto; right: 28px; bottom: 64px; transform: none; }
-      .section-heading { grid-template-columns: 1fr; gap: 22px; }
-      .configurator-shell { grid-template-columns: 1fr; }
-      .controls-panel { border-right: 0; border-bottom: 1px solid #aaa397; }
-      .panel-actions { margin-top: 8px; }
-      .drawing-panel { min-height: 690px; overflow-x: auto; }
-      .drawing { min-width: 760px; }
+    @media (max-width: 900px) {
+      .section-heading { grid-template-columns: 1fr; gap: 16px; }
+      .configurator-shell { display: block; overflow: visible; }
+      /* le dessin reste visible pendant qu'on manipule les curseurs */
+      .drawing-panel { position: sticky; top: 0; z-index: 5; height: clamp(212px, 34svh, 340px); border-bottom: 1px solid var(--edge); }
+      .controls-panel { border-right: 0; }
     }
-    @media (max-width: 560px) {
-      .hero { min-height: 540px; height: 78vh; }
-      .hero h1 { font-size: 58px; }
-      .project-strip { grid-template-columns: 1fr 1fr; }
-      .project-strip > div, .project-strip > div:nth-child(3) { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    @supports not (height: 1svh) { @media (max-width: 900px) { .drawing-panel { height: clamp(212px, 34vh, 340px); } } }
+    @media (max-width: 640px) {
+      .hero-figure figcaption { display: none; }
+      .project-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .project-strip > div { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
       .project-strip > div:nth-child(even) { border-right: 0; }
-      .workspace-section { padding-top: 54px; }
-      .section-heading h2 { font-size: 40px; }
-      .controls-panel { padding: 24px 20px; }
+      .project-strip > div:nth-last-child(-n+2) { border-bottom: 0; }
+      .controls-panel { padding: 20px 16px 16px; }
       .strata-tabs { gap: 3px; }
-      .drawing-caption { flex-direction: column; }
-      footer { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .strata-tabs button { font-size: 10px; }
+      .drawing-caption { justify-content: flex-start; }
+      .drawing-caption span:nth-child(3) { display: none; }
+      footer { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 380px) {
+      .panel-actions { grid-template-columns: 1fr; }
+      .panel-actions button { grid-column: 1 / -1; }
+    }
+    @media (hover: none) {
+      .strata-tabs button:hover { border-color: #c7c0b5; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
@@ -237,23 +255,24 @@
 </head>
 <body>
   <main>
-    <section class="hero" aria-labelledby="page-title">
-      <img class="hero-image" src="images/nuage-lumineux-les-7-raisons.png" alt="Nuage lenticulaire mêlé aux sept coupoles lumineuses du luminaire Les 7 Raisons">
-      <div class="hero-shade"></div>
-      <div class="hero-copy">
-        <p class="eyebrow">Studio Incandescence · Outil de conception</p>
-        <h1 id="page-title">LES <em>7</em> RAISONS</h1>
-        <p class="hero-lede">Composer un nuage lumineux, strate après strate.</p>
-      </div>
-      <div class="hero-index" aria-hidden="true">01—07</div>
-    </section>
+    <header class="masthead" aria-labelledby="page-title">
+      <p class="eyebrow">Studio Incandescence · Outil de conception</p>
+      <h1 id="page-title">LES <em>7</em> RAISONS</h1>
+      <p class="hero-lede">Composer un nuage lumineux, strate après strate.</p>
+    </header>
+
+    <figure class="hero-figure">
+      <img src="images/nuage-lumineux-les-7-raisons.png" width="1520" height="855"
+           alt="Nuage lenticulaire traversé par les sept coupoles lumineuses du luminaire Les 7 Raisons">
+      <figcaption>01—07 · Nuage lenticulaire</figcaption>
+    </figure>
 
     <section class="project-strip" aria-label="Cartouche du projet">
       <div><span>Société</span><strong>Studio Incandescence SAS</strong></div>
       <div><span>Designer</span><strong>Alexandre Kolinka</strong></div>
       <div><span>Fonction</span><strong>Lighting &amp; Parametric Designer</strong></div>
       <div><span>Projet</span><strong>Les 7 Raisons</strong></div>
-      <div><span>Partie</span><strong>Configurateur coupoles + donuts</strong></div>
+      <div><span>Partie</span><strong>Configurateur coupoles + halos</strong></div>
       <div><span>Date</span><strong>17.08.2026</strong></div>
     </section>
 
@@ -263,50 +282,97 @@
           <p class="eyebrow dark">Configurateur paramétrique · Vue de face</p>
           <h2>Régler la respiration du nuage</h2>
         </div>
-        <p class="section-note">Chaque arc traverse le centre symbolique de son moyeu. La courbure peut envelopper les strates voisines, tandis qu’une contrainte géométrique empêche toute interpénétration.</p>
+        <p class="section-note">Chaque coupole porte à plat sur toute la largeur de son halo, puis s’incurve&nbsp;: elle ne peut jamais recouvrir son propre anneau, quel que soit le diamètre choisi. En revanche une coupole plus large que celle du dessous vient la coiffer — c’est ce qui imbrique le nuage. La contrainte géométrique n’intervient que là où deux coques se superposent vraiment.</p>
       </header>
 
       <div class="configurator-shell">
+        <div class="drawing-panel" id="drawing-panel">
+          <div class="drawing-frame" id="drawing-frame">
+            <svg id="drawing" class="drawing" viewBox="0 0 900 850" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="drawing-title">
+              <title id="drawing-title">Vue de face paramétrique des sept coupoles passant par le centre de leurs moyeux</title>
+              <defs>
+                <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#fbfaf6"></stop><stop offset="1" stop-color="#f1eee6"></stop>
+                </linearGradient>
+                <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="14"></feGaussianBlur>
+                </filter>
+              </defs>
+              <rect id="paper-bg" class="paper-background" width="900" height="850" fill="url(#paper)"></rect>
+              <g id="chrome-layer"></g>
+              <g id="geometry-layer"></g>
+              <g id="titleblock-layer" class="svg-titleblock"></g>
+            </svg>
+          </div>
+          <div class="drawing-caption">
+            <span id="caption-spacing">Pas 44 mm</span>
+            <span id="caption-scale">Échelle 1:—</span>
+            <span>Zéro interpénétration</span>
+          </div>
+        </div>
+
         <aside class="controls-panel" aria-label="Réglages des strates">
           <div class="panel-topline"><span>Strate active</span><strong id="active-count">03/07</strong></div>
+
           <div class="strata-tabs" id="strata-tabs" role="tablist" aria-label="Choisir une strate"></div>
-          <div class="active-summary"><span>Couple coupole / donut</span><strong id="module-label">MODULE 03</strong></div>
+
+          <div class="active-summary"><span>Couple <span data-lex="shell">coupole</span> / <span data-lex="ring">halo</span></span><strong id="module-label">MODULE 03</strong></div>
 
           <label class="control-row">
-            <span class="control-heading"><span>Diamètre coupole</span><output id="cupola-output">860 mm</output></span>
-            <input id="cupola" aria-label="Diamètre coupole" type="range" min="320" max="900" step="10">
+            <span class="control-heading"><span>Diamètre <span data-lex="shell">coupole</span></span><output id="cupola-output">860 mm</output></span>
+            <input id="cupola" class="slider" aria-label="Diamètre de la coupole en millimètres" type="range" min="320" max="900" step="10">
             <span class="range-extents"><span>320</span><span>900</span></span>
           </label>
+
           <label class="control-row">
-            <span class="control-heading"><span>Diamètre donut lumineux</span><output id="donut-output">280 mm</output></span>
-            <input id="donut" aria-label="Diamètre donut lumineux" type="range" min="120" max="360" step="10">
-            <span class="range-extents"><span>120</span><span>360</span></span>
+            <span class="control-heading"><span><span data-lex="ring">Halo</span> · <span id="halo-rank">5/7</span></span><output id="halo-output">Ø 198,9 mm</output></span>
+            <input id="halo" class="slider is-stepped" type="range" min="0" max="6" step="1" list="halo-ticks">
+            <datalist id="halo-ticks"><option value="0"></option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5"></option><option value="6"></option></datalist>
+            <span class="range-extents"><span>Ø143 · 18 seg.</span><span>Ø223 · 28 seg.</span></span>
           </label>
+
           <label class="control-row">
             <span class="control-heading"><span>Intensité de courbure</span><output id="arc-output">105 mm</output></span>
-            <input id="arc" aria-label="Intensité de courbure" type="range" min="20" max="180" step="1">
-            <span class="range-extents"><span>20</span><span>180</span></span>
-          </label>
-          <label class="control-row">
-            <span class="control-heading"><span>Espacement des moyeux</span><output id="spacing-output">44 mm</output></span>
-            <input id="spacing" aria-label="Espacement des moyeux" type="range" min="36" max="62" step="1" value="44">
-            <span class="range-extents"><span>36</span><span>62</span></span>
+            <input id="arc" class="slider" aria-label="Flèche de la coupole en millimètres" type="range" min="0" max="280" step="1">
+            <span class="range-extents"><span>0</span><span>280</span></span>
           </label>
 
-          <div class="constraint-status" id="constraint-status"><strong>ANTI-INTERSECTION ACTIVE</strong><span id="constraint-text">Toutes les courbures sont libres</span></div>
+          <label class="control-row">
+            <span class="control-heading"><span>Espacement des strates</span><output id="spacing-output">44 mm</output></span>
+            <input id="spacing" class="slider" aria-label="Pas d’empilement des strates en millimètres" type="range" min="36" max="72" step="1" value="44">
+            <span class="range-extents"><span>36</span><span>72</span></span>
+          </label>
+
+          <div class="constraint-status" id="serie-status">
+            <strong>Série de cordon</strong><span id="serie-state">Série complète</span>
+          </div>
+          <div class="constraint-status" id="constraint-status">
+            <strong>Imbrication</strong><span id="constraint-text">Toutes les courbures sont libres</span>
+          </div>
 
           <div class="mode-block">
-            <span>Mode d’affichage</span>
-            <div class="segmented-control">
-              <button id="mode-line" class="active" type="button">Trait</button>
-              <button id="mode-light" type="button">Lumière</button>
+            <span class="block-label" id="mode-label">Mode d’affichage</span>
+            <div class="segmented-control" role="group" aria-labelledby="mode-label">
+              <button id="mode-line" type="button" aria-pressed="true">Trait</button>
+              <button id="mode-light" type="button" aria-pressed="false">Lumière</button>
+            </div>
+
+            <p class="panel-note">Les sept halos correspondent aux sept longueurs de cordon
+            COB coupables au pas de 25 mm, de 18 à 28 segments. Le client choisit dans
+            cette série, jamais un diamètre libre.</p>
+
+            <div class="iteration-row">
+              <label class="block-label" for="iteration">Itération</label>
+              <input id="iteration" type="number" inputmode="numeric" min="1" max="99" value="18">
             </div>
           </div>
 
-          <div class="iteration-row"><label for="iteration">Itération</label><input id="iteration" type="number" min="1" max="99" value="18"></div>
-
           <div class="panel-actions">
-            <button type="button" class="reset-button" id="reset">Réinitialiser</button>
+            <button type="button" class="ghost-button" id="reset">Réinitialiser</button>
+            <button type="button" class="ghost-button" id="share">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a4 4 0 0 0 5.7.4l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 11a4 4 0 0 0-5.7-.4l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>
+              <span>Copier le lien</span>
+            </button>
             <button type="button" class="capture-button" id="capture">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"></path></svg>
               <span>Capturer le résultat</span>
@@ -314,311 +380,550 @@
           </div>
           <p class="capture-status" id="capture-status" role="status" aria-live="polite"></p>
         </aside>
-
-        <div class="drawing-panel line" id="drawing-panel">
-          <svg id="drawing" class="drawing" viewBox="0 0 900 850" role="img" aria-label="Vue de face paramétrique des sept coupoles passant par le centre de leurs moyeux">
-            <defs>
-              <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfaf6"></stop><stop offset="1" stop-color="#f1eee6"></stop></linearGradient>
-              <radialGradient id="hubSphere" cx="34%" cy="28%" r="72%"><stop offset="0" stop-color="#f7dc9d"></stop><stop offset=".42" stop-color="#c9913d"></stop><stop offset="1" stop-color="#704417"></stop></radialGradient>
-              <filter id="amberGlow" x="-80%" y="-250%" width="260%" height="600%"><feGaussianBlur stdDeviation="8" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
-              <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="18"></feGaussianBlur></filter>
-            </defs>
-            <rect width="900" height="850" fill="url(#paper)" class="paper-background"></rect>
-            <text x="48" y="55" class="svg-kicker">LES 7 RAISONS · ÉLÉVATION PARAMÉTRIQUE</text>
-            <text x="852" y="55" text-anchor="end" class="svg-meta" id="svg-iteration">ITÉRATION 18</text>
-            <line x1="48" y1="74" x2="852" y2="74" class="svg-rule"></line>
-            <g id="geometry-layer"></g>
-            <line x1="48" y1="717" x2="852" y2="717" class="svg-rule"></line>
-            <g class="svg-titleblock">
-              <text x="48" y="750" class="titleblock-label">STUDIO INCANDESCENCE SAS</text>
-              <text x="48" y="773">ALEXANDRE KOLINKA</text>
-              <text x="48" y="792" class="titleblock-small">LIGHTING &amp; PARAMETRIC DESIGNER</text>
-              <text x="322" y="750" class="titleblock-label">PROJET</text>
-              <text x="322" y="773">LES 7 RAISONS</text>
-              <text x="322" y="792" class="titleblock-small">CONFIGURATEUR COUPOLES + DONUTS</text>
-              <text x="654" y="750" class="titleblock-label">CONFIGURATION</text>
-              <text x="654" y="773">7 COUPOLES · 7 DONUTS</text>
-              <text x="654" y="792" class="titleblock-small">MOYEU COMMUN Ø 124 MM · 3 PÔLES · SANS MÂT VISIBLE</text>
-              <text x="48" y="827" class="titleblock-small">DATE 17.08.2026</text>
-              <text x="322" y="827" class="titleblock-small" id="svg-max">Ø MAX 860 MM</text>
-              <text x="654" y="827" class="titleblock-small" id="svg-iteration-bottom">ITÉRATION 18</text>
-            </g>
-          </svg>
-          <div class="drawing-caption"><span id="caption-spacing">Centres alignés · pas 44 mm</span><span>Courbures sensuelles sous contrainte</span><span>Zéro interpénétration</span></div>
-        </div>
       </div>
     </section>
+
     <footer><p>LES 7 RAISONS</p><span>Nature · lumière · matière</span></footer>
   </main>
 
   <script>
-    (() => {
-      "use strict";
+  (() => {
+    "use strict";
 
-      const INITIAL_STRATA = [
-        { id: 1, cupola: 540, donut: 150, arc: 58 },
-        { id: 2, cupola: 720, donut: 220, arc: 74 },
-        { id: 3, cupola: 860, donut: 280, arc: 105 },
-        { id: 4, cupola: 650, donut: 190, arc: 64 },
-        { id: 5, cupola: 800, donut: 250, arc: 92 },
-        { id: 6, cupola: 600, donut: 170, arc: 53 },
-        { id: 7, cupola: 740, donut: 230, arc: 82 }
-      ];
-      const SCALE = .72;
-      const CX = 450;
-      const START_Y = 178;
-      const SPACING_SCALE = 1.18;
-      const CURVATURE_SCALE = .82;
-      const CURVE_EXPONENT = 1.72;
-      const CURVE_SAMPLES = 96;
-      const COLLISION_CLEARANCE = 4;
-      const HUB_RADIUS = 17;
-      const DONUT_HEIGHT = 16;
-      const NS = "http://www.w3.org/2000/svg";
+    /* ============================================================
+       CONSTANTES PROJET — toutes les longueurs sont en millimètres.
+       Le dessin est une élévation à l'échelle : l'échelle est
+       recalculée à chaque redimensionnement pour que la composition
+       entière tienne dans le cadre, sur téléphone comme sur écran.
+       ============================================================ */
+    const HUB_DIAMETER   = 124;   // moyeu invariant
+    const DONUT_HEIGHT   = 35;    // hauteur du corps de donut
+    const CLEARANCE      = 6;     // garde mini entre deux coupoles
+    const COB_PITCH      = 25;    // pas de coupe du cordon COB
+    /* Le client ne choisit pas un diamètre libre : il choisit une des sept
+       longueurs de cordon coupables au pas de 25 mm. Le plancher est 18
+       segments, imposé par le moyeu Ø124 ; au-delà de 28 le halo dépasse la
+       plus petite coupole. C'est la série de référence LR-PASS-018. */
+    const HALO_SEGMENTS  = [18, 19, 21, 23, 25, 27, 28];
+    const HALO_D = HALO_SEGMENTS.map(n => Math.round(COB_PITCH * n / Math.PI * 10) / 10);
+    const BEARING_MARGIN = 4;     // la voûte quitte le halo 4 mm au-delà de son bord
+    const CURVE_EXPONENT = 1.72;
+    const SAMPLES        = 96;
+    const NS             = "http://www.w3.org/2000/svg";
 
-      let strata = INITIAL_STRATA.map(item => ({ ...item }));
-      let active = 3;
-      let mode = "line";
-      let hubSpacing = 44;
-      let iteration = 18;
+    /* Vocabulaire public. « Donut » est le mot d'atelier ; sur le site il
+       devient « halo ». Changer les quatre valeurs ci-dessous suffit à
+       renommer la pièce partout, panneau et dessin compris.
+       Autres pistes : couronne · anneau · nimbe · auréole. */
+    const LEX = { ring: "halo", RING: "HALO", shell: "coupole", SHELL: "COUPOLE" };
 
-      const byId = id => document.getElementById(id);
-      const drawing = byId("drawing");
-      const geometryLayer = byId("geometry-layer");
-      const controls = {
-        cupola: byId("cupola"),
-        donut: byId("donut"),
-        arc: byId("arc"),
-        spacing: byId("spacing")
-      };
+    /* halo = index dans HALO_D. Départ : une strate par diamètre, série
+       complète, la plus grande coupole au centre du nuage. */
+    const INITIAL = [
+      { id: 1, cupola: 520, halo: 0, arc: 70 },
+      { id: 2, cupola: 700, halo: 2, arc: 120 },
+      { id: 3, cupola: 860, halo: 4, arc: 175 },
+      { id: 4, cupola: 900, halo: 6, arc: 200 },
+      { id: 5, cupola: 800, halo: 5, arc: 155 },
+      { id: 6, cupola: 640, halo: 3, arc: 105 },
+      { id: 7, cupola: 560, halo: 1, arc: 80 }
+    ];
 
-      function pad(value) { return String(value).padStart(2, "0"); }
-      function curveRise(distance, radius) {
-        if (radius <= 0) return 0;
-        return Math.pow(Math.min(1, Math.abs(distance) / radius), CURVE_EXPONENT);
-      }
-      function buildCurvePath(centerY, radius, sag) {
-        return Array.from({ length: CURVE_SAMPLES + 1 }, (_, index) => {
-          const normalized = index / CURVE_SAMPLES;
-          const x = CX - radius + normalized * radius * 2;
-          const y = centerY + sag * curveRise(x - CX, radius);
-          return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-        }).join(" ");
-      }
-      function solveGeometry() {
-        const stepY = hubSpacing * SPACING_SCALE;
-        const base = strata.map((item, index) => {
-          const width = item.cupola * SCALE;
-          return {
-            ...item,
-            centerY: START_Y + index * stepY,
-            radius: width / 2,
-            width,
-            donutWidth: item.donut * SCALE,
-            requestedSag: item.arc * CURVATURE_SCALE,
-            sag: item.arc * CURVATURE_SCALE,
-            clamped: false,
-            path: ""
-          };
-        });
-        for (let index = base.length - 1; index >= 0; index -= 1) {
-          const current = base[index];
-          let allowedSag = current.requestedSag;
-          for (let lowerIndex = index + 1; lowerIndex < base.length; lowerIndex += 1) {
-            const lower = base[lowerIndex];
-            const overlapRadius = Math.min(current.radius, lower.radius);
-            for (let sample = 1; sample <= CURVE_SAMPLES; sample += 1) {
-              const distance = overlapRadius * sample / CURVE_SAMPLES;
-              const currentRise = curveRise(distance, current.radius);
-              if (currentRise < .0001) continue;
-              const lowerY = lower.centerY + lower.sag * curveRise(distance, lower.radius);
-              const localLimit = (lowerY - current.centerY - COLLISION_CLEARANCE) / currentRise;
-              allowedSag = Math.min(allowedSag, localLimit);
-            }
+    let strata      = INITIAL.map(s => ({ ...s }));
+    let active      = 4;
+    let mode        = "line";
+    let hubSpacing  = 44;
+    let iteration   = 18;
+    let compact     = false;
+    let lastScale   = 1;
+
+    const byId = id => document.getElementById(id);
+    const drawing   = byId("drawing");
+    const frame     = byId("drawing-frame");
+    const gChrome   = byId("chrome-layer");
+    const gGeometry = byId("geometry-layer");
+    const gBlock    = byId("titleblock-layer");
+    const paperBg   = byId("paper-bg");
+    const controls  = { cupola: byId("cupola"), halo: byId("halo"), arc: byId("arc"), spacing: byId("spacing") };
+
+    const pad2 = v => String(v).padStart(2, "0");
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+    /* ------------------------------------------------ série des halos */
+    const haloIndexOf = d => {
+      let best = 0, gap = Infinity;
+      HALO_D.forEach((v, i) => { const g = Math.abs(v - d); if (g < gap) { gap = g; best = i; } });
+      return best;
+    };
+
+    /* ------------------------------------------------------ géométrie */
+    /* La coupole porte à plat sur toute la largeur de son halo, puis
+       s'incurve. La zone plate vaut le rayon du halo + 4 mm : une coupole ne
+       peut donc jamais recouvrir son propre halo, quel que soit le diamètre
+       choisi. C'est ce qui rend l'arc automatiquement dépendant du halo. */
+    function curveRise(distance, radius, flat) {
+      const d = Math.abs(distance);
+      if (radius <= flat || d <= flat) return 0;
+      return Math.pow(Math.min(1, (d - flat) / (radius - flat)), CURVE_EXPONENT);
+    }
+
+    function solveGeometry() {
+      const rows = strata.map((s, i) => ({
+        ...s,
+        cy: i * hubSpacing,
+        // la coupole REPOSE sur son anneau : le sommet de l'arc est le plan
+        // d'appui, c'est-à-dire la face supérieure de l'anneau. L'anneau est
+        // donc entièrement sous sa propre courbe.
+        apex: i * hubSpacing - DONUT_HEIGHT / 2,
+        radius: s.cupola / 2,
+        flat: HALO_D[s.halo] / 2 + BEARING_MARGIN,
+        requested: s.arc,
+        sag: s.arc,
+        clamped: false
+      }));
+      for (let i = rows.length - 1; i >= 0; i -= 1) {
+        const current = rows[i];
+        let allowed = current.requested;
+        for (let j = i + 1; j < rows.length; j += 1) {
+          const lower = rows[j];
+          const overlap = Math.min(current.radius, lower.radius);
+          for (let k = 1; k <= SAMPLES; k += 1) {
+            const distance = overlap * k / SAMPLES;
+            const rise = curveRise(distance, current.radius, current.flat);
+            if (rise < 1e-4) continue;
+            const lowerY = lower.apex + lower.sag * curveRise(distance, lower.radius, lower.flat);
+            allowed = Math.min(allowed, (lowerY - current.apex - CLEARANCE) / rise);
           }
-          current.sag = Math.max(0, allowedSag);
-          current.clamped = current.sag < current.requestedSag - .5;
-          current.path = buildCurvePath(current.centerY, current.radius, current.sag);
         }
-        return base;
+        current.sag = Math.max(0, allowed);
+        current.clamped = current.sag < current.requested - 0.5;
       }
-      function svg(name, attrs = {}, text = "") {
-        const element = document.createElementNS(NS, name);
-        Object.entries(attrs).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== false) element.setAttribute(key, String(value));
-        });
-        if (text) element.textContent = text;
-        return element;
-      }
-      function updateRange(input, value) {
-        input.value = value;
-        const min = Number(input.min);
-        const max = Number(input.max);
-        input.style.setProperty("--range-progress", `${(value - min) / (max - min) * 100}%`);
-      }
-      function activeStrate() { return strata.find(item => item.id === active) || strata[0]; }
+      return rows;
+    }
 
-      function renderTabs() {
-        const tabs = byId("strata-tabs");
-        tabs.replaceChildren(...strata.map(item => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.setAttribute("role", "tab");
-          button.setAttribute("aria-selected", String(active === item.id));
-          button.className = active === item.id ? "active" : "";
-          button.textContent = pad(item.id);
-          button.addEventListener("click", () => { active = item.id; render(); });
-          return button;
-        }));
+    /* ------------------------------------------------------- utilitaire */
+    function el(name, attrs = {}, text = "") {
+      const node = document.createElementNS(NS, name);
+      for (const [key, value] of Object.entries(attrs)) {
+        if (value !== undefined && value !== null && value !== false) node.setAttribute(key, String(value));
       }
-      function renderControls() {
-        const item = activeStrate();
-        byId("active-count").textContent = `${pad(active)}/07`;
-        byId("module-label").textContent = `MODULE ${pad(active)}`;
-        ["cupola", "donut", "arc"].forEach(key => {
-          updateRange(controls[key], item[key]);
-          byId(`${key}-output`).textContent = `${item[key]} mm`;
-        });
-        updateRange(controls.spacing, hubSpacing);
-        byId("spacing-output").textContent = `${hubSpacing} mm`;
-        byId("iteration").value = iteration;
-        byId("mode-line").classList.toggle("active", mode === "line");
-        byId("mode-light").classList.toggle("active", mode === "light");
-        byId("drawing-panel").className = `drawing-panel ${mode}`;
-        byId("caption-spacing").textContent = `Centres alignés · pas ${hubSpacing} mm`;
+      if (text !== "") node.textContent = text;
+      return node;
+    }
+    function setRange(input, value, min, max) {
+      if (min !== undefined) input.min = min;
+      if (max !== undefined) input.max = max;
+      input.value = value;
+      const lo = Number(input.min), hi = Number(input.max);
+      input.style.setProperty("--p", `${clamp((value - lo) / (hi - lo), 0, 1) * 100}%`);
+    }
+    const activeStrate = () => strata.find(s => s.id === active) || strata[0];
+
+    /* =============================================== RENDU DU DESSIN */
+    function renderDrawing(rows) {
+      const rect = frame.getBoundingClientRect();
+      const W = Math.max(280, Math.round(rect.width));
+      const H = Math.max(220, Math.round(rect.height));
+      compact = W < 620;
+
+      drawing.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      paperBg.setAttribute("width", W);
+      paperBg.setAttribute("height", H);
+
+      /* --- gabarit de page ------------------------------------ */
+      const margin  = compact ? 12 : 40;
+      const gutterL = compact ? 20 : 76;                  // numéros de strate
+      const gutterR = compact ? 54 : 148;                 // cotes
+      const kickerY = compact ? 20 : 38;
+      const ruleY   = kickerY + (compact ? 11 : 18);
+      const showBlock = W >= 520 && H >= 560;   // cartouche : dépend de la place, pas du mode
+      const blockTop  = showBlock ? H - 132 : H - margin;
+      const drawTop = ruleY + (compact ? 12 : 24);
+      const drawBot = blockTop - (compact ? 8 : 22);
+
+      const usableW = Math.max(60, W - margin * 2 - gutterL - gutterR);
+      const usableH = Math.max(60, drawBot - drawTop);
+
+      /* --- boîte englobante de la composition, en mm ----------- */
+      const maxRadius = Math.max(...rows.map(r => r.radius));
+      const topMm = Math.min(...rows.map(r => r.apex)) - 6;
+      const botMm = Math.max(...rows.map(r => Math.max(r.apex + r.sag, r.cy + DONUT_HEIGHT / 2))) + 6;
+      const spanX = maxRadius * 2;
+      const spanY = Math.max(1, botMm - topMm);
+
+      const scale = Math.min(usableW / spanX, usableH / spanY, 1.4);
+      lastScale = scale;
+      const cx = margin + gutterL + usableW / 2;
+      const top = drawTop + (usableH - spanY * scale) / 2;
+      const X = mm => cx + mm * scale;
+      const Y = mm => top + (mm - topMm) * scale;
+
+      /* --- entête et cartouche --------------------------------- */
+      gChrome.replaceChildren();
+      gChrome.append(
+        el("text", { x: margin, y: kickerY, class: "svg-kicker", "font-size": compact ? 9 : 12 },
+           compact ? "LES 7 RAISONS · ÉLÉVATION" : "LES 7 RAISONS · ÉLÉVATION PARAMÉTRIQUE"),
+        el("text", { x: W - margin, y: kickerY, "text-anchor": "end", class: "svg-meta", "font-size": compact ? 9 : 11 },
+           `ITÉRATION ${pad2(iteration)}`),
+        el("line", { x1: margin, y1: ruleY, x2: W - margin, y2: ruleY, class: "svg-rule" })
+      );
+      if (showBlock) {
+        gChrome.appendChild(el("line", { x1: margin, y1: blockTop - 10, x2: W - margin, y2: blockTop - 10, class: "svg-rule" }));
       }
-      function renderDrawing(geometry) {
-        geometryLayer.replaceChildren();
-        if (mode === "light") {
-          geometry.forEach(item => geometryLayer.appendChild(svg("path", {
-            d: item.path,
-            class: "cupola-glow",
-            opacity: active === item.id ? .34 : .16,
-            filter: "url(#softGlow)"
-          })));
-        }
-        [...geometry].reverse().forEach(item => geometryLayer.appendChild(svg("path", {
-          d: item.path,
-          class: `cupola-top${active === item.id ? " selected" : ""}${item.clamped ? " clamped" : ""}`
-        })));
-        geometry.forEach(item => {
-          const donutLeft = CX - item.donutWidth / 2;
-          const donutRight = CX + item.donutWidth / 2;
-          const group = svg("g", { class: active === item.id ? "svg-strate selected" : "svg-strate" });
-          group.append(
-            svg("rect", { x: donutLeft, y: item.centerY - DONUT_HEIGHT / 2, width: item.donutWidth, height: DONUT_HEIGHT, rx: DONUT_HEIGHT / 2, class: "donut-shell" }),
-            svg("line", { x1: donutLeft + 10, x2: donutRight - 10, y1: item.centerY, y2: item.centerY, class: "donut-led", filter: mode === "light" ? "url(#amberGlow)" : null }),
-            svg("circle", { cx: CX, cy: item.centerY, r: HUB_RADIUS, class: "hub-sphere" }),
-            svg("line", { x1: CX - HUB_RADIUS - 5, x2: CX + HUB_RADIUS + 5, y1: item.centerY, y2: item.centerY, class: "hub-crosshair" }),
-            svg("line", { x1: CX, x2: CX, y1: item.centerY - HUB_RADIUS - 5, y2: item.centerY + HUB_RADIUS + 5, class: "hub-crosshair" }),
-            svg("circle", { cx: CX, cy: item.centerY, r: 2.2, class: "hub-center" }),
-            svg("text", { x: 62, y: item.centerY + 5, class: "layer-number" }, pad(item.id)),
-            svg("line", { x1: 92, x2: Math.max(105, CX - item.radius - 13), y1: item.centerY, y2: item.centerY, class: "leader-line" }),
-            svg("text", { x: 838, y: item.centerY - 5, "text-anchor": "end", class: "dimension-text" }, `Ø ${item.cupola}`),
-            svg("text", { x: 838, y: item.centerY + 13, "text-anchor": "end", class: "dimension-subtext" }, `DONUT Ø ${item.donut} · COURBE ${item.arc}${item.clamped ? " · LIMITÉE" : ""}`)
+
+      gBlock.replaceChildren();
+      if (showBlock) {
+        const colW = (W - margin * 2) / 3;
+        const c = i => margin + colW * i;
+        const maxD = Math.max(...strata.map(s => s.cupola));
+        const rowsBlock = [
+          [c(0), "STUDIO INCANDESCENCE SAS", "ALEXANDRE KOLINKA", "LIGHTING & PARAMETRIC DESIGNER"],
+          [c(1), "PROJET", "LES 7 RAISONS", `CONFIGURATEUR ${LEX.SHELL}S + ${LEX.RING}S`],
+          [c(2), "CONFIGURATION", `7 ${LEX.SHELL}S · 7 ${LEX.RING}S`, `PAS ${hubSpacing} MM · Ø MAX ${maxD} MM · SANS MÂT NI MOYEU APPARENT`]
+        ];
+        for (const [x, label, main, small] of rowsBlock) {
+          gBlock.append(
+            el("text", { x, y: blockTop + 16, class: "tb-label", "font-size": 8 }, label),
+            el("text", { x, y: blockTop + 39, "font-size": 12 }, main),
+            el("text", { x, y: blockTop + 58, class: "tb-small", "font-size": 8 }, small)
           );
-          geometryLayer.appendChild(group);
-        });
-        const maxDiameter = Math.max(...strata.map(item => item.cupola));
-        byId("svg-max").textContent = `Ø MAX ${maxDiameter} MM`;
-        byId("svg-iteration").textContent = `ITÉRATION ${pad(iteration)}`;
-        byId("svg-iteration-bottom").textContent = `ITÉRATION ${pad(iteration)}`;
-      }
-      function renderConstraint(geometry) {
-        const count = geometry.filter(item => item.clamped).length;
-        const status = byId("constraint-status");
-        status.classList.toggle("active", count > 0);
-        byId("constraint-text").textContent = count
-          ? `${count} courbe${count > 1 ? "s" : ""} bridée${count > 1 ? "s" : ""}`
-          : "Toutes les courbures sont libres";
-      }
-      function render() {
-        const geometry = solveGeometry();
-        renderTabs();
-        renderControls();
-        renderDrawing(geometry);
-        renderConstraint(geometry);
+        }
+        gBlock.appendChild(el("text", { x: margin, y: blockTop + 90, class: "tb-small", "font-size": 8 },
+          `ÉCHELLE 1:${(1 / scale).toFixed(1)} · SEPT HALOS COUPABLES AU PAS COB DE 25 MM · APPUI PLAT SUR TOUTE LA LARGEUR DU HALO`));
       }
 
-      ["cupola", "donut", "arc"].forEach(key => {
-        controls[key].addEventListener("input", event => {
-          const item = activeStrate();
-          item[key] = Number(event.target.value);
+      /* --- géométrie -------------------------------------------- */
+      gGeometry.replaceChildren();
+
+      const pathOf = row => {
+        let d = "";
+        for (let i = 0; i <= SAMPLES; i += 1) {
+          const t = i / SAMPLES;
+          const mmX = -row.radius + t * row.radius * 2;
+          const mmY = row.apex + row.sag * curveRise(mmX, row.radius, row.flat);
+          d += `${i === 0 ? "M" : "L"} ${X(mmX).toFixed(2)} ${Y(mmY).toFixed(2)} `;
+        }
+        return d.trim();
+      };
+      rows.forEach(r => { r.d = pathOf(r); });
+
+      if (mode === "light") {
+        rows.forEach(r => gGeometry.appendChild(el("path", {
+          d: r.d, class: "cupola-glow", opacity: active === r.id ? 0.34 : 0.16, filter: "url(#softGlow)"
+        })));
+      }
+      [...rows].reverse().forEach(r => gGeometry.appendChild(el("path", {
+        d: r.d, class: `cupola-top${active === r.id ? " selected" : ""}${r.clamped ? " clamped" : ""}`
+      })));
+
+      const donutH = Math.max(5, DONUT_HEIGHT * scale);
+      const rowGap = hubSpacing * scale;   // place verticale disponible par strate
+
+      rows.forEach(r => {
+        const y = Y(r.cy);
+        const halo = HALO_D[r.halo];
+        const left = X(-halo / 2), right = X(halo / 2);
+        const group = el("g", { class: active === r.id ? "svg-strate selected" : "svg-strate" });
+        group.append(
+          el("rect", { x: left, y: y - donutH / 2, width: right - left, height: donutH,
+                       rx: donutH / 2, class: "donut-shell" }),
+          ...(mode === "light" ? [
+            el("line", { x1: left + donutH * .5, x2: X(-HUB_DIAMETER * .3), y1: y, y2: y, class: "led-glow" }),
+            el("line", { x1: X(HUB_DIAMETER * .3), x2: right - donutH * .5, y1: y, y2: y, class: "led-glow" })
+          ] : []),
+          el("line", { x1: left + donutH * .5, x2: X(-HUB_DIAMETER * .3), y1: y, y2: y, class: "donut-led" }),
+          el("line", { x1: X(HUB_DIAMETER * .3), x2: right - donutH * .5, y1: y, y2: y, class: "donut-led" }),
+          el("circle", { cx: X(0), cy: y, r: 1.6, class: "hub-center" })
+        );
+
+        group.append(el("text", { x: margin + (compact ? 0 : 12), y: y + (compact ? 3 : 4),
+                                  class: "layer-number", "font-size": compact ? 9 : 10 }, pad2(r.id)));
+        if (!compact) {
+          group.append(el("line", { x1: margin + 34, x2: Math.max(margin + 44, X(-r.radius) - 12),
+                                    y1: y, y2: y, class: "leader-line" }));
+        }
+
+        const rightX = W - margin;
+        if (compact) {
+          group.append(el("text", { x: rightX, y: y + 3, "text-anchor": "end", class: "dim-text", "font-size": 9 },
+                                  `Ø${r.cupola}`));
+        } else if (rowGap >= 30) {
+          group.append(
+            el("text", { x: rightX, y: y - 4, "text-anchor": "end", class: "dim-text", "font-size": 10 }, `Ø ${r.cupola}`),
+            el("text", { x: rightX, y: y + 13, "text-anchor": "end", class: "dim-sub", "font-size": 8 },
+               `${LEX.RING} Ø ${HALO_D[r.halo]} · ${HALO_SEGMENTS[r.halo]} SEG · COURBE ${r.arc}${r.clamped ? " · BRIDÉE" : ""}`)
+          );
+        } else {
+          group.append(el("text", { x: rightX, y: y + 4, "text-anchor": "end", class: "dim-text", "font-size": 10 },
+            `Ø ${r.cupola} · ${LEX.RING} ${HALO_D[r.halo]}${r.clamped ? " · BRIDÉE" : ""}`));
+        }
+
+        // zone cliquable : sélectionner une strate directement sur le dessin
+        const hit = el("rect", {
+          x: margin, y: y - Math.max(14, donutH), width: W - margin * 2, height: Math.max(28, donutH * 2),
+          class: "hit-strate", role: "button", tabindex: "-1",
+          "aria-label": `Sélectionner la strate ${r.id}`
+        });
+        hit.addEventListener("click", () => { active = r.id; render(); });
+        group.appendChild(hit);
+
+        gGeometry.appendChild(group);
+      });
+
+      byId("caption-scale").textContent = `Échelle 1:${(1 / scale).toFixed(1)}`;
+    }
+
+    /* =============================================== RENDU DU PANNEAU */
+    function renderTabs(rows) {
+      const host = byId("strata-tabs");
+      host.replaceChildren(...strata.map(s => {
+        const row = rows.find(r => r.id === s.id);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-selected", String(active === s.id));
+        button.setAttribute("aria-controls", "drawing");
+        button.tabIndex = active === s.id ? 0 : -1;
+        button.className = row && row.clamped ? "is-clamped" : "";
+        button.textContent = pad2(s.id);
+        button.addEventListener("click", () => { active = s.id; render(); });
+        button.addEventListener("keydown", event => {
+          const delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+          if (!delta) return;
+          event.preventDefault();
+          active = ((active - 1 + delta + strata.length) % strata.length) + 1;
           render();
+          byId("strata-tabs").children[active - 1].focus();
         });
-      });
-      controls.spacing.addEventListener("input", event => { hubSpacing = Number(event.target.value); render(); });
-      byId("iteration").addEventListener("input", event => { iteration = Math.max(1, Math.min(99, Number(event.target.value) || 1)); render(); });
-      byId("mode-line").addEventListener("click", () => { mode = "line"; render(); });
-      byId("mode-light").addEventListener("click", () => { mode = "light"; render(); });
-      byId("reset").addEventListener("click", () => {
-        strata = INITIAL_STRATA.map(item => ({ ...item }));
-        active = 3;
-        mode = "line";
-        hubSpacing = 44;
-        iteration = 18;
-        byId("capture-status").textContent = "";
-        render();
-      });
+        return button;
+      }));
+    }
 
-      byId("capture").addEventListener("click", () => {
-        const button = byId("capture");
-        const label = button.querySelector("span");
-        const status = byId("capture-status");
-        label.textContent = "Préparation…";
+    function renderControls() {
+      const s = activeStrate();
+      byId("active-count").textContent = `${pad2(active)}/07`;
+      byId("module-label").textContent = `MODULE ${pad2(active)}`;
+
+      setRange(controls.cupola, s.cupola);
+      byId("cupola-output").textContent = `${s.cupola} mm`;
+
+      setRange(controls.halo, s.halo);
+      byId("halo-output").innerHTML =
+        `Ø ${HALO_D[s.halo].toFixed(1).replace(".", ",")} mm <small>· ${HALO_SEGMENTS[s.halo]} seg.</small>`;
+      byId("halo-rank").textContent = `${s.halo + 1}/7`;
+
+      setRange(controls.arc, s.arc);
+      byId("arc-output").textContent = `${s.arc} mm`;
+
+      setRange(controls.spacing, hubSpacing);
+      byId("spacing-output").textContent = `${hubSpacing} mm`;
+
+      byId("iteration").value = iteration;
+      byId("mode-line").setAttribute("aria-pressed", String(mode === "line"));
+      byId("mode-light").setAttribute("aria-pressed", String(mode === "light"));
+      const used = new Set(strata.map(x => x.halo)).size;
+      byId("serie-state").textContent = used === 7
+        ? "Série complète — les sept longueurs de cordon sont utilisées"
+        : `${7 - used} longueur${used < 6 ? "s" : ""} de cordon en double`;
+      byId("serie-status").classList.toggle("active", used < 7);
+      byId("drawing-panel").className = `drawing-panel ${mode}`;
+      byId("caption-spacing").textContent = `Pas ${hubSpacing} mm`;
+    }
+
+    function renderConstraint(rows) {
+      const count = rows.filter(r => r.clamped).length;
+      const status = byId("constraint-status");
+      status.classList.toggle("active", count > 0);
+      const nest = rows.filter((r, i) => i > 0 && r.radius < rows[i - 1].radius).length;
+      byId("constraint-text").textContent = count
+        ? `${count} courbe${count > 1 ? "s" : ""} bridée${count > 1 ? "s" : ""}`
+        : nest
+          ? `${nest} strate${nest > 1 ? "s" : ""} recouverte${nest > 1 ? "s" : ""} par celle du dessus`
+          : "Toutes les courbures sont libres";
+    }
+
+    let frameRequest = 0;
+    function render() {
+      const rows = solveGeometry();
+      renderTabs(rows);
+      renderControls();
+      renderDrawing(rows);
+      renderConstraint(rows);
+      scheduleHash();
+    }
+    function renderSoon() {
+      if (frameRequest) return;
+      frameRequest = requestAnimationFrame(() => { frameRequest = 0; render(); });
+    }
+
+    /* ============================================ ÉTAT DANS L'URL */
+    function encodeState() {
+      const parts = strata.map(s => `${s.cupola}-${s.halo}-${s.arc}`).join("_");
+      return `#v2;${parts};${hubSpacing};${iteration};${mode}`;
+    }
+    function decodeState(hash) {
+      if (!hash || hash.slice(0, 4) !== "#v2;") return false;
+      try {
+        const [, list, spacing, iter, m] = hash.split(";");
+        const items = list.split("_");
+        if (items.length !== 7) return false;
+        strata = items.map((chunk, index) => {
+          const [c, h, a] = chunk.split("-").map(Number);
+          if (![c, h, a].every(Number.isFinite)) throw new Error("valeur invalide");
+          return { id: index + 1, cupola: clamp(c, 320, 900), halo: clamp(h, 0, 6), arc: clamp(a, 0, 280) };
+        });
+        hubSpacing = clamp(Number(spacing) || 44, 36, 72);
+        iteration  = clamp(Number(iter) || 18, 1, 99);
+        mode       = m === "light" ? "light" : "line";
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+    let hashTimer = 0;
+    function scheduleHash() {
+      clearTimeout(hashTimer);
+      hashTimer = setTimeout(() => {
+        try { history.replaceState(null, "", encodeState()); } catch (error) { /* file:// */ }
+      }, 220);
+    }
+
+    /* ==================================================== ÉVÉNEMENTS */
+    controls.cupola.addEventListener("input", event => {
+      activeStrate().cupola = Number(event.target.value); renderSoon();
+    });
+    controls.halo.addEventListener("input", event => {
+      activeStrate().halo = clamp(Number(event.target.value), 0, 6); renderSoon();
+    });
+    controls.arc.addEventListener("input", event => {
+      activeStrate().arc = Number(event.target.value); renderSoon();
+    });
+    controls.spacing.addEventListener("input", event => {
+      hubSpacing = Number(event.target.value); renderSoon();
+    });
+    byId("iteration").addEventListener("input", event => {
+      iteration = clamp(Number(event.target.value) || 1, 1, 99); renderSoon();
+    });
+    byId("mode-line").addEventListener("click", () => { mode = "line"; render(); });
+    byId("mode-light").addEventListener("click", () => { mode = "light"; render(); });
+    byId("reset").addEventListener("click", () => {
+      strata = INITIAL.map(s => ({ ...s }));
+      active = 4; mode = "line"; hubSpacing = 44; iteration = 18;
+      byId("capture-status").textContent = "";
+      render();
+    });
+
+    byId("share").addEventListener("click", async () => {
+      const status = byId("capture-status");
+      const url = location.origin + location.pathname + location.search + encodeState();
+      try {
+        await navigator.clipboard.writeText(url);
+        status.className = "capture-status success";
+        status.textContent = "Lien de cette configuration copié.";
+      } catch (error) {
+        try { history.replaceState(null, "", encodeState()); } catch (e) { /* ignore */ }
         status.className = "capture-status";
-        status.textContent = "";
-        try {
-          const clone = drawing.cloneNode(true);
-          clone.setAttribute("xmlns", NS);
-          clone.setAttribute("width", "1800");
-          clone.setAttribute("height", "1700");
-          const sourceElements = [drawing, ...drawing.querySelectorAll("*")];
-          const clonedElements = [clone, ...clone.querySelectorAll("*")];
-          const properties = ["fill","stroke","stroke-width","stroke-dasharray","stroke-linecap","stroke-linejoin","opacity","font-family","font-size","font-style","font-weight","letter-spacing","text-transform","filter"];
-          sourceElements.forEach((element, index) => {
-            const target = clonedElements[index];
-            if (!target) return;
-            const computed = getComputedStyle(element);
-            target.setAttribute("style", properties.map(property => `${property}:${computed.getPropertyValue(property)}`).join(";"));
-          });
-          const serialized = new XMLSerializer().serializeToString(clone);
-          const blob = new Blob([serialized], { type: "image/svg+xml;charset=utf-8" });
-          const url = URL.createObjectURL(blob);
-          const image = new Image();
-          image.onload = () => {
+        status.textContent = "Copie refusée par le navigateur — l’adresse de la page contient la configuration.";
+      }
+    });
+
+    /* --------------------------------------------------- capture PNG */
+    byId("capture").addEventListener("click", () => {
+      const button = byId("capture");
+      const label = button.querySelector("span");
+      const status = byId("capture-status");
+      const fail = message => {
+        status.className = "capture-status error";
+        status.textContent = message;
+        label.textContent = "Capturer le résultat";
+      };
+      label.textContent = "Préparation…";
+      status.className = "capture-status";
+      status.textContent = "";
+
+      let url = null;
+      try {
+        const viewBox = drawing.getAttribute("viewBox").split(" ").map(Number);
+        // au moins 1800 px de large, meme si la capture part d'un telephone
+        const factor = Math.max(2, 1800 / viewBox[2]);
+        const outW = Math.round(viewBox[2] * factor);
+        const outH = Math.round(viewBox[3] * factor);
+        const clone = drawing.cloneNode(true);
+        clone.setAttribute("xmlns", NS);
+        clone.setAttribute("width", outW);
+        clone.setAttribute("height", outH);
+        clone.querySelectorAll(".hit-strate").forEach(node => node.remove());
+
+        const sources = [drawing, ...drawing.querySelectorAll("*")];
+        const targets = [clone, ...clone.querySelectorAll("*")];
+        const properties = ["fill","stroke","stroke-width","stroke-dasharray","stroke-linecap","stroke-linejoin",
+                            "opacity","font-family","font-size","font-style","font-weight","letter-spacing","filter"];
+        sources.forEach((node, index) => {
+          const target = targets[index];
+          if (!target || target.tagName === "svg") return;
+          const computed = getComputedStyle(node);
+          target.setAttribute("style", properties.map(p => `${p}:${computed.getPropertyValue(p)}`).join(";"));
+        });
+
+        const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: "image/svg+xml;charset=utf-8" });
+        url = URL.createObjectURL(blob);
+        const image = new Image();
+        image.onload = () => {
+          try {
             const canvas = document.createElement("canvas");
-            canvas.width = 1800;
-            canvas.height = 1700;
+            canvas.width = outW;
+            canvas.height = outH;
             const context = canvas.getContext("2d");
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, outW, outH);
             URL.revokeObjectURL(url);
             canvas.toBlob(png => {
-              if (!png) throw new Error("PNG indisponible");
-              const downloadUrl = URL.createObjectURL(png);
+              if (!png) return fail("Le navigateur n’a pas pu produire le PNG.");
               const link = document.createElement("a");
-              link.download = `les-7-raisons-iteration-${pad(iteration)}.png`;
-              link.href = downloadUrl;
+              const href = URL.createObjectURL(png);
+              link.download = `les-7-raisons-iteration-${pad2(iteration)}.png`;
+              link.href = href;
               document.body.appendChild(link);
               link.click();
               link.remove();
-              setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+              setTimeout(() => URL.revokeObjectURL(href), 1000);
               status.className = "capture-status success";
-              status.textContent = "Capture PNG téléchargée.";
+              status.textContent = `Capture ${outW}×${outH} px téléchargée.`;
               label.textContent = "Capturer le résultat";
             }, "image/png");
-          };
-          image.onerror = () => { throw new Error("SVG illisible"); };
-          image.src = url;
-        } catch (error) {
-          status.className = "capture-status error";
-          status.textContent = "La capture n’a pas pu être créée.";
-          label.textContent = "Capturer le résultat";
-        }
-      });
+          } catch (error) {
+            fail("La capture n’a pas pu être créée.");
+          }
+        };
+        image.onerror = () => {
+          if (url) URL.revokeObjectURL(url);
+          fail("Le dessin n’a pas pu être converti en image.");
+        };
+        image.src = url;
+      } catch (error) {
+        if (url) URL.revokeObjectURL(url);
+        fail("La capture n’a pas pu être créée.");
+      }
+    });
 
-      render();
-    })();
+    /* ------------------------------------------- redimensionnement */
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => renderSoon()).observe(frame);
+    } else {
+      window.addEventListener("resize", renderSoon);
+      window.addEventListener("orientationchange", renderSoon);
+    }
+    window.addEventListener("hashchange", () => { if (decodeState(location.hash)) render(); });
+
+    document.querySelectorAll("[data-lex]").forEach(node => {
+      node.textContent = LEX[node.dataset.lex];
+    });
+    controls.halo.setAttribute("aria-label", `Choix du ${LEX.ring} parmi les sept longueurs de cordon coupables`);
+
+    decodeState(location.hash);
+    render();
+    // le premier calcul peut tomber avant la mise en page finale des polices
+    window.addEventListener("load", renderSoon);
+  })();
   </script>
 </body>
 </html>
