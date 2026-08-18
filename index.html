@@ -901,18 +901,17 @@
         clone.setAttribute("xmlns", NS);
         clone.setAttribute("width", outW);
         clone.setAttribute("height", outH);
+        // le SVG exporté n'a pas accès à la feuille de style de la page :
+        // on la lui embarque, plutôt que de recopier les styles calculés
+        // élément par élément — recopie qui se désalignait dès qu'un nœud
+        // était retiré du clone, et attribuait la fonte d'un texte à un tracé.
+        clone.setAttribute("class", `drawing ${mode}`);
+        const sheet = document.createElementNS(NS, "style");
+        sheet.textContent = document.querySelector("style").textContent +
+          "\n/* export : les traits doivent suivre l'agrandissement */\n" +
+          "* { vector-effect: none !important; }";
+        clone.insertBefore(sheet, clone.firstChild);
         clone.querySelectorAll(".hit-strate").forEach(node => node.remove());
-
-        const sources = [drawing, ...drawing.querySelectorAll("*")];
-        const targets = [clone, ...clone.querySelectorAll("*")];
-        const properties = ["fill","stroke","stroke-width","stroke-dasharray","stroke-linecap","stroke-linejoin",
-                            "opacity","font-family","font-size","font-style","font-weight","letter-spacing","filter"];
-        sources.forEach((node, index) => {
-          const target = targets[index];
-          if (!target || target.tagName === "svg") return;
-          const computed = getComputedStyle(node);
-          target.setAttribute("style", properties.map(p => `${p}:${computed.getPropertyValue(p)}`).join(";"));
-        });
 
         const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: "image/svg+xml;charset=utf-8" });
         url = URL.createObjectURL(blob);
