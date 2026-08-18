@@ -52,6 +52,11 @@
       background: linear-gradient(180deg, rgba(7,15,22,.92), rgba(7,15,22,0));
       pointer-events: none;
     }
+    .hero-figure.is-missing img { display: none; }
+    .hero-figure.is-missing {
+      aspect-ratio: 1520 / 855; max-height: 62svh;
+      background-image: radial-gradient(120% 100% at 62% 44%, #2b3c4b 0%, #0d1a25 58%, #060d14 100%);
+    }
     .hero-figure figcaption {
       position: absolute; right: max(20px, var(--safe-r)); bottom: 18px;
       color: rgba(255,255,255,.55); font-size: 10px; font-weight: 700; letter-spacing: .2em;
@@ -229,7 +234,12 @@
     }
     @supports not (height: 1svh) { @media (max-width: 900px) { .drawing-panel { height: clamp(212px, 34vh, 340px); } } }
     @media (max-width: 640px) {
-      .hero-figure figcaption { display: none; }
+      .hero-figure.is-missing img { display: none; }
+    .hero-figure.is-missing {
+      aspect-ratio: 1520 / 855; max-height: 62svh;
+      background-image: radial-gradient(120% 100% at 62% 44%, #2b3c4b 0%, #0d1a25 58%, #060d14 100%);
+    }
+    .hero-figure figcaption { display: none; }
       .project-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
       .project-strip > div { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
       .project-strip > div:nth-child(even) { border-right: 0; }
@@ -262,7 +272,12 @@
     </header>
 
     <figure class="hero-figure">
-      <img src="images/nuage-lumineux-les-7-raisons.png" width="1520" height="855"
+      <!-- L'image est cherchée d'abord à la racine du dépôt, puis dans images/.
+           Les deux rangements fonctionnent, sans rien avoir à modifier ici. -->
+      <img id="hero-image" width="1520" height="855"
+           src="nuage-lumineux-les-7-raisons.png"
+           data-fallback="images/nuage-lumineux-les-7-raisons.png"
+           onerror="(function(i){ if(i.dataset.fallback){ i.src=i.dataset.fallback; i.removeAttribute('data-fallback'); } else { i.closest('.hero-figure').classList.add('is-missing'); } })(this)"
            alt="Nuage lenticulaire traversé par les sept coupoles lumineuses du luminaire Les 7 Raisons">
       <figcaption>01—07 · Nuage lenticulaire</figcaption>
     </figure>
