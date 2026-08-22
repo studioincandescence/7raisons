@@ -13,7 +13,7 @@
     *{box-sizing:border-box} html{scroll-behavior:smooth;background:var(--paper)}
     body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none} img{display:block;width:100%} button,input{font:inherit;color:inherit}
-    .nav{position:absolute;z-index:10;inset:0 0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:86px;padding:0 clamp(24px,4vw,72px);border-bottom:1px solid rgba(255,255,255,.2);color:#fff}
+    .nav{background:linear-gradient(180deg,rgba(3,7,8,.6),rgba(3,7,8,.12) 70%,transparent);position:absolute;z-index:10;inset:0 0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:86px;padding:0 clamp(24px,4vw,72px);border-bottom:1px solid rgba(255,255,255,.2);color:#fff}
     .brand{display:flex;width:max-content;align-items:baseline;gap:6px;font-size:10px;font-weight:bold;letter-spacing:.18em}.brand b{color:var(--amber);font:400 29px/1 Georgia,serif}
     .nav nav{display:flex;gap:42px}.nav nav a,.nav-cta{font-size:9px;font-weight:bold;letter-spacing:.15em;text-transform:uppercase}.nav-cta{color:#efbd7b}
     .nav-end{display:flex;justify-self:end;align-items:center;gap:26px}
@@ -47,15 +47,24 @@
     .composer-note{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 30px;margin:20px 0 0;color:rgba(255,255,255,.42);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
     .composer-note a{color:#deb174;border-bottom:1px solid rgba(222,177,116,.4);padding-bottom:2px}
 
+    .prototype .visual{display:flex;align-items:center;background:#e2d4c7}
+    .prototype .visual img{height:auto;object-fit:contain}
+    .full-image.planche{height:auto;min-height:0;background:#f8f7f4;padding:clamp(28px,5vw,70px)}
+    .full-image.planche img{height:auto;max-height:none}
+    .full-image.planche .caption{bottom:clamp(10px,2vw,26px);left:clamp(10px,2vw,26px)}
     .price{background:var(--light)}.price h2{font-size:clamp(46px,5vw,80px)}.price-line{margin-top:44px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.price-line span{display:block;color:#777066;font-size:8px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase}.price-line strong{font:21px Georgia,serif}
     .prototype{align-items:center;background:#101616;color:#f3eee5}.prototype .visual{position:relative;min-height:700px}.prototype .visual img{height:100%;object-fit:cover}.prototype .body{margin:35px 0 45px;color:rgba(255,255,255,.58)}.timeline{margin:0;padding:0;list-style:none}.timeline li{display:grid;grid-template-columns:44px 1fr;padding:15px 0;border-top:1px solid rgba(255,255,255,.13)}.timeline li:last-child{border-bottom:1px solid rgba(255,255,255,.13)}.timeline>li>span{color:rgba(255,255,255,.28);font-size:9px}.timeline strong{display:block;font:16px Georgia,serif}.timeline small{display:block;color:rgba(255,255,255,.35);font-size:8px;letter-spacing:.12em;text-transform:uppercase}.timeline .active>span,.timeline .active small{color:#d9a35f}
     .button{display:flex;min-height:51px;align-items:center;justify-content:center;padding:12px;border:1px solid #c99556;background:#c99556;color:#111;font-size:8px;font-weight:bold;letter-spacing:.12em;text-align:center;text-transform:uppercase}
-    .final{position:relative;display:flex;min-height:760px;align-items:center;justify-content:center;overflow:hidden;color:#fff;text-align:center}.final>img{position:absolute;inset:0;height:100%;object-fit:cover;filter:saturate(.75) brightness(.72)}.final:after{position:absolute;inset:0;background:rgba(2,7,8,.4);content:""}.final-copy{position:relative;z-index:1;width:min(780px,calc(100% - 48px))}.final h2{font-size:clamp(56px,7vw,108px)}.final .big{max-width:600px;margin:30px auto 38px;color:rgba(255,255,255,.72);font-size:20px}.final .button{width:230px;margin:auto}
+    .final{position:relative;display:flex;min-height:760px;align-items:center;justify-content:center;overflow:hidden;color:#fff;text-align:center}.final>img{position:absolute;inset:0;height:100%;object-fit:cover;filter:saturate(.75) brightness(.72)}.final:after{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(2,7,8,.74),rgba(2,7,8,.44) 62%);content:""}.final-copy{position:relative;z-index:1;width:min(780px,calc(100% - 48px))}.final .eyebrow{color:#e9b574}.final h2{font-size:clamp(56px,7vw,108px)}.final .big{max-width:600px;margin:30px auto 38px;color:rgba(255,255,255,.72);font-size:20px}.final .button{width:230px;margin:auto}
     footer{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.4fr;gap:30px;padding:46px clamp(24px,6.5vw,126px);background:#070b0c;color:rgba(255,255,255,.57);font-size:8px;letter-spacing:.08em;text-transform:uppercase}footer div{display:flex;flex-direction:column;gap:6px}footer a{color:#deb174}
     @media(max-width:1100px){.nav nav{display:none}.nav{grid-template-columns:1fr auto}.version-main{grid-template-columns:1fr}.version-photo{min-height:560px}footer{grid-template-columns:1fr 1fr}}
     @media(max-width:900px){.composer-frame{border:0;background:0}.composer-frame iframe{display:none}.composer-card{display:flex}}
-    @media(max-width:820px){.section{padding-top:88px;padding-bottom:88px}.intro-grid,.split,.section-head,.price-grid,.version-pair{grid-template-columns:1fr;gap:45px}.materials .visual,.prototype .visual{min-height:520px}.version-pair{gap:24px}.section-head{margin-bottom:55px}}
-    @media(max-width:560px){.hero{min-height:680px}.meta{top:95px}.meta span:last-child,.nav-cta{display:none}.hero-copy{width:calc(100% - 48px)}.hero h1{font-size:47px}.hero-lead{font-size:17px}.section{padding-right:24px;padding-left:24px}h2{font-size:45px}.materials .visual,.prototype .visual{min-height:440px}.version-photo{min-height:420px}.card-copy,.version-card .card-copy{padding:42px 26px}.placeholder{min-height:420px;padding:26px}footer{grid-template-columns:1fr}}
+    @media(max-width:820px){
+      .full-image.planche{overflow-x:auto;padding:16px}
+      .full-image.planche img{width:auto;min-width:880px;max-width:none}
+      .full-image.planche .caption{position:static;width:max-content;margin-top:10px}
+.section{padding-top:88px;padding-bottom:88px}.intro-grid,.split,.section-head,.price-grid,.version-pair{grid-template-columns:1fr;gap:45px}.materials .visual,.prototype .visual{min-height:520px}.version-pair{gap:24px}.section-head{margin-bottom:55px}}
+    @media(max-width:560px){.hero{min-height:680px}.hero>img{object-position:72% 50%}.meta{top:95px}.meta span:last-child,.nav-cta{display:none}.hero-copy{width:calc(100% - 48px)}.hero h1{font-size:47px}.hero-lead{font-size:17px}.section{padding-right:24px;padding-left:24px}h2{font-size:45px}.materials .visual,.prototype .visual{min-height:440px}.version-photo{min-height:420px}.card-copy,.version-card .card-copy{padding:42px 26px}.placeholder{min-height:420px;padding:26px}footer{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -74,10 +83,10 @@
   </header>
 
   <section class="hero imgbox" id="top">
-    <img src="hero-nuage.png"
-         data-fallbacks="image/hero-nuage.png|images/hero-nuage.png|nuage-lumineux-les-7-raisons.png"
-         onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-         alt="Lenticular cloud merged with seven luminous glass strata">
+    <img src="hero-nuage.jpg"
+           data-fallbacks="hero-nuage.png|image/hero-nuage.jpg|image/hero-nuage.png|images/hero-nuage.jpg|nuage-lumineux-les-7-raisons.png"
+           onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
+           alt="Warm close view of the seven glass strata">
     <div class="veil"></div>
     <div class="meta">
       <span data-fr="Studio Incandescence · Paris">Studio Incandescence · Paris</span>
@@ -103,20 +112,20 @@
   </section>
 
   <section class="full-image imgbox">
-    <img src="strates-verre.png"
-         data-fallbacks="image/strates-verre.png|images/strates-verre.png"
-         onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-         alt="Close view of the seven transparent strata and the brass axis">
+    <img src="strates-verre.jpg"
+           data-fallbacks="strates-verre.png|image/strates-verre.jpg|image/strates-verre.png|images/strates-verre.jpg"
+           onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
+           alt="The seven luminous strata seen from the front">
     <span class="caption" data-fr="Composition A · Étude de proportions · 7 coupoles · 7 sources">Composition A · Proportion study · 7 domes · 7 sources</span>
   </section>
 
   <section class="section split materials">
     <div class="visual imgbox">
       <img src="matiere-verre.jpg"
-           data-fallbacks="image/matiere-verre.jpg|images/matiere-verre.jpg|matiere-verre.png|image/matiere-verre.png"
+           data-fallbacks="matiere-verre.png|image/matiere-verre.jpg|image/matiere-verre.png|images/matiere-verre.jpg"
            onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-           alt="Study of clear glass, brass and amber light">
-      <span class="caption" data-fr="Image d’intention · matière à valider">Intention image · material to be confirmed</span>
+           alt="Close study of one glass dome resting on its brass halo">
+      <span class="caption" data-fr="Verre et laiton · étude de matière">Glass and brass · material study</span>
     </div>
     <div>
       <p class="num" data-fr="02 — Matières">02 — Materials</p>
@@ -142,10 +151,10 @@
     </div>
     <article class="version-main">
       <div class="version-photo imgbox">
-        <img src="lampadaire-interieur.png"
-             data-fallbacks="image/lampadaire-interieur.png|images/lampadaire-interieur.png"
-             onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-             alt="Les 7 Raisons floor lamp in an interior">
+        <img src="lampadaire-interieur.jpg"
+           data-fallbacks="lampadaire-interieur.png|image/lampadaire-interieur.jpg|image/lampadaire-interieur.png|images/lampadaire-interieur.jpg"
+           onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
+           alt="Les 7 Raisons floor lamp standing in a bright interior">
         <span class="caption" data-fr="Visualisation d’intention · non contractuelle">Intention visual · not contractual</span>
       </div>
       <div class="card-copy">
@@ -233,11 +242,11 @@
 
   <section class="section split prototype" id="prototype">
     <div class="visual imgbox">
-      <img src="detail-module.png"
-           data-fallbacks="image/detail-module.png|images/detail-module.png"
+      <img src="detail-module.jpg"
+           data-fallbacks="detail-module.png|image/detail-module.jpg|image/detail-module.png|images/detail-module.jpg"
            onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-           alt="Close study of one dome module and its luminous crown">
-      <span class="caption" data-fr="Étude de principe · prototype à valider">Principle study · prototype to be confirmed</span>
+           alt="Exploded view of one module: dome, glass ring, luminous halo and brass hub">
+      <span class="caption" data-fr="Un module éclaté · coupole, anneau, halo, moyeu">One module exploded · dome, ring, halo, hub</span>
     </div>
     <div>
       <p class="num" data-fr="06 — Le premier prototype">06 — The first prototype</p>
@@ -252,11 +261,19 @@
     </div>
   </section>
 
+  <section class="full-image imgbox planche">
+    <img src="planche-technique.jpg"
+           data-fallbacks="planche-technique.png|image/planche-technique.jpg|image/planche-technique.png|images/planche-technique.jpg"
+           onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
+           alt="Technical study plate: the seven halos and the invariant magnetic interface">
+    <span class="caption" data-fr="Planche d’étude 19 · sept halos, interface invariante">Study plate 19 · seven halos, invariant interface</span>
+  </section>
+
   <section class="final imgbox" id="contact">
-    <img src="hero-nuage.png"
-         data-fallbacks="image/hero-nuage.png|images/hero-nuage.png|nuage-lumineux-les-7-raisons.png"
-         onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
-         alt="Les 7 Raisons luminous cloud">
+    <img src="interieur-nuit.jpg"
+           data-fallbacks="interieur-nuit.png|image/interieur-nuit.jpg|image/interieur-nuit.png|images/interieur-nuit.jpg|hero-nuage.jpg"
+           onerror="(function(i){var f=(i.dataset.fallbacks||'').split('|').filter(Boolean);if(f.length){i.dataset.fallbacks=f.slice(1).join('|');i.src=f[0];}else{i.closest('.imgbox').classList.add('is-missing');}})(this)"
+           alt="Les 7 Raisons lit at night in an interior">
     <div class="final-copy">
       <p class="eyebrow" data-fr="Une pièce imaginée pour votre lieu">A piece imagined for your place</p>
       <h2 data-fr="Imaginer votre composition.">Imagine your composition.</h2>
