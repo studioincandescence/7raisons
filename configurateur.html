@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131c">
-  <meta name="description" content="Configurateur paramétrique des sept coupoles et des sept halos lumineux du luminaire Les 7 Raisons.">
-  <title>Les 7 Raisons — Configurateur de strates</title>
+  <meta name="description" content="Parametric configurator for the seven domes and seven luminous halos of the Les 7 Raisons light.">
+  <title>Les 7 Raisons — Strata configurator</title>
   <style>
     :root {
       --ink: #171612;
@@ -40,6 +40,10 @@
     }
     .eyebrow { margin: 0 0 14px; color: #e8bc72; font-size: clamp(9px, 2.6vw, 11px); font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
     .eyebrow.dark { color: var(--brass); }
+    .lang-switch { display: inline-flex; align-items: center; gap: 6px; }
+    .lang-switch button { padding: 0; border: 0; background: 0; cursor: pointer;
+      font: inherit; letter-spacing: inherit; color: rgba(255,255,255,.45); }
+    .lang-switch button.on { color: #e8bc72; }
     .retour { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(232,188,114,.35);
               padding-bottom: 2px; transition: 160ms ease; }
     .retour:hover { border-bottom-color: currentColor; }
@@ -280,14 +284,32 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
     }
+
+    /* ---- Mode embarque : le configurateur s'affiche dans un cadre du site.
+           On masque l'en-tete, l'image, le cartouche et le pied de page pour
+           ne garder que l'outil. Active par ?embed=1 dans l'URL. ---- */
+    html.embed .masthead,
+    html.embed .hero-figure,
+    html.embed .project-strip,
+    html.embed .section-heading,
+    html.embed body > main > footer { display: none !important; }
+    html.embed, html.embed body { background: var(--paper); }
+    html.embed .workspace-section { padding-top: clamp(18px, 3vw, 32px); padding-bottom: clamp(18px, 3vw, 32px); }
+    /* Hauteur en pixels et non en vh : dans un cadre qui s'ajuste a son contenu,
+       une hauteur relative au viewport se mordrait la queue et grandirait sans fin. */
+    html.embed .configurator-shell { min-height: 820px; }
   </style>
+  <script>
+    /* Doit s'executer avant le premier rendu pour eviter tout clignotement. */
+    if (location.search.indexOf("embed") > -1) document.documentElement.classList.add("embed");
+  </script>
 </head>
 <body>
   <main>
     <header class="masthead" aria-labelledby="page-title">
-      <p class="eyebrow"><a href="index.html" class="retour">← Les 7 Raisons</a> · Outil de conception</p>
+      <p class="eyebrow"><a href="index.html" class="retour">← Les 7 Raisons</a> · <span data-fr="Outil de conception">Design tool</span> · <span class="lang-switch"><button type="button" data-lang="en">EN</button><span aria-hidden="true">·</span><button type="button" data-lang="fr">FR</button></span></p>
       <h1 id="page-title">LES <em>7</em> RAISONS</h1>
-      <p class="hero-lede">Composer un nuage lumineux, strate après strate.</p>
+      <p class="hero-lede" data-fr="Composer un nuage lumineux, strate après strate.">Compose a cloud of light, stratum by stratum.</p>
     </header>
 
     <figure class="hero-figure">
@@ -298,32 +320,32 @@
            data-fallback="images/nuage-lumineux-les-7-raisons.png"
            onerror="(function(i){ if(i.dataset.fallback){ i.src=i.dataset.fallback; i.removeAttribute('data-fallback'); } else { i.closest('.hero-figure').classList.add('is-missing'); } })(this)"
            alt="Nuage lenticulaire traversé par les sept coupoles lumineuses du luminaire Les 7 Raisons">
-      <figcaption>01—07 · Nuage lenticulaire</figcaption>
+      <figcaption data-fr="01—07 · Nuage lenticulaire">01—07 · Lenticular cloud</figcaption>
     </figure>
 
-    <section class="project-strip" aria-label="Cartouche du projet">
-      <div><span>Société</span><strong>Studio Incandescence SAS</strong></div>
+    <section class="project-strip" aria-label="Project title block">
+      <div><span data-fr="Société">Company</span><strong>Studio Incandescence SAS</strong></div>
       <div><span>Designer</span><strong>Alexandre Kolinka</strong></div>
-      <div><span>Fonction</span><strong>Lighting &amp; Parametric Designer</strong></div>
-      <div><span>Projet</span><strong>Les 7 Raisons</strong></div>
-      <div><span>Partie</span><strong>Configurateur coupoles + halos</strong></div>
+      <div><span data-fr="Fonction">Role</span><strong>Lighting &amp; Parametric Designer</strong></div>
+      <div><span data-fr="Projet">Project</span><strong>Les 7 Raisons</strong></div>
+      <div><span data-fr="Partie">Part</span><strong data-fr="Configurateur coupoles + halos">Domes + halos configurator</strong></div>
       <div><span>Date</span><strong>17.08.2026</strong></div>
     </section>
 
     <section class="workspace-section">
       <header class="section-heading">
         <div>
-          <p class="eyebrow dark">Configurateur paramétrique · Vue de face</p>
-          <h2>Régler la respiration du nuage</h2>
+          <p class="eyebrow dark" data-fr="Configurateur paramétrique · Vue de face">Parametric configurator · Front elevation</p>
+          <h2 data-fr="Régler la respiration du nuage">Tune the breathing of the cloud</h2>
         </div>
-        <p class="section-note">Chaque coupole porte à plat sur toute la largeur de son halo, puis s’incurve&nbsp;: elle ne peut jamais recouvrir son propre anneau, quel que soit le diamètre choisi. En revanche une coupole plus large que celle du dessous vient la coiffer — c’est ce qui imbrique le nuage. La contrainte géométrique n’intervient que là où deux coques se superposent vraiment.</p>
+        <p class="section-note" data-fr="Chaque coupole porte à plat sur toute la largeur de son halo, puis s’incurve&nbsp;: elle ne peut jamais recouvrir son propre anneau, quel que soit le diamètre choisi. En revanche une coupole plus large que celle du dessous vient la coiffer — c’est ce qui imbrique le nuage. La contrainte géométrique n’intervient que là où deux coques se superposent vraiment.">Every dome bears flat across the full width of its halo before it curves&nbsp;: it can never cover its own ring, whatever diameter is chosen. A dome wider than the one below, on the other hand, caps it — and that is what nests the cloud. The geometric constraint only applies where two shells genuinely overlap.</p>
       </header>
 
       <div class="configurator-shell">
         <div class="drawing-panel" id="drawing-panel">
           <div class="drawing-frame" id="drawing-frame">
             <svg id="drawing" class="drawing" viewBox="0 0 900 850" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="drawing-title">
-              <title id="drawing-title">Vue de face paramétrique des sept coupoles passant par le centre de leurs moyeux</title>
+              <title id="drawing-title">Parametric front elevation of the seven domes passing through the centre of their hubs</title>
               <defs>
                 <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" stop-color="#fbfaf6"></stop><stop offset="1" stop-color="#f1eee6"></stop>
@@ -341,68 +363,66 @@
           <div class="drawing-caption">
             <span id="caption-spacing">Pas 44 mm</span>
             <span id="caption-scale">Échelle 1:—</span>
-            <span>Zéro interpénétration</span>
+            <span data-fr="Zéro interpénétration">No interpenetration</span>
           </div>
         </div>
 
-        <aside class="controls-panel" aria-label="Réglages des strates">
-          <div class="panel-topline"><span>Strate active</span><strong id="active-count">03/07</strong></div>
+        <aside class="controls-panel" aria-label="Strata settings">
+          <div class="panel-topline"><span data-fr="Strate active">Active stratum</span><strong id="active-count">03/07</strong></div>
 
-          <div class="strata-tabs" id="strata-tabs" role="tablist" aria-label="Choisir une strate"></div>
+          <div class="strata-tabs" id="strata-tabs" role="tablist" aria-label="Choose a stratum"></div>
 
-          <div class="active-summary"><span>Couple <span data-lex="shell">coupole</span> / <span data-lex="ring">halo</span></span><strong id="module-label">MODULE 03</strong></div>
+          <div class="active-summary"><span data-fr="Couple <span data-lex=&quot;shell&quot;>coupole</span> / <span data-lex=&quot;ring&quot;>halo</span>"><span data-lex="Shell">Dome</span> / <span data-lex="ring">halo</span> pair</span><strong id="module-label">MODULE 03</strong></div>
 
           <label class="control-row">
-            <span class="control-heading"><span>Diamètre <span data-lex="shell">coupole</span></span><output id="cupola-output">860 mm</output></span>
-            <input id="cupola" class="slider" aria-label="Diamètre de la coupole en millimètres" type="range" min="320" max="900" step="10">
+            <span class="control-heading"><span data-fr="Diamètre <span data-lex=&quot;shell&quot;>coupole</span>"><span data-lex="Shell">Dome</span> diameter</span><output id="cupola-output">860 mm</output></span>
+            <input id="cupola" class="slider" aria-label="Dome diameter in millimetres" type="range" min="320" max="900" step="10">
             <span class="range-extents"><span>320</span><span>900</span></span>
           </label>
 
           <label class="control-row">
-            <span class="control-heading"><span><span data-lex="ring">Halo</span> · <span id="halo-rank">5/7</span></span><output id="halo-output">Ø 198,9 mm</output></span>
+            <span class="control-heading"><span data-fr="<span data-lex=&quot;Ring&quot;>Halo</span> · <span id=&quot;halo-rank&quot;>5/7</span>"><span data-lex="Ring">Halo</span> · <span id="halo-rank">5/7</span></span><output id="halo-output">Ø 198,9 mm</output></span>
             <input id="halo" class="slider is-stepped" type="range" min="0" max="6" step="1" list="halo-ticks">
             <datalist id="halo-ticks"><option value="0"></option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5"></option><option value="6"></option></datalist>
-            <span class="range-extents"><span>Ø143 · 18 seg.</span><span>Ø223 · 28 seg.</span></span>
+            <span class="range-extents"><span data-fr="Ø143 · 18 seg.">Ø143 · 18 seg</span><span data-fr="Ø223 · 28 seg.">Ø223 · 28 seg</span></span>
           </label>
 
           <label class="control-row">
-            <span class="control-heading"><span>Intensité de courbure</span><output id="arc-output">105 mm</output></span>
-            <input id="arc" class="slider" aria-label="Flèche de la coupole en millimètres" type="range" min="0" max="280" step="2">
+            <span class="control-heading"><span data-fr="Intensité de courbure">Curvature depth</span><output id="arc-output">105 mm</output></span>
+            <input id="arc" class="slider" aria-label="Dome rise in millimetres" type="range" min="0" max="280" step="2">
             <span class="range-extents"><span>0</span><span>280</span></span>
           </label>
 
           <label class="control-row">
-            <span class="control-heading"><span>Espacement des strates</span><output id="spacing-output">44 mm</output></span>
-            <input id="spacing" class="slider" aria-label="Pas d’empilement des strates en millimètres" type="range" min="36" max="72" step="1" value="44">
+            <span class="control-heading"><span data-fr="Espacement des strates">Spacing between strata</span><output id="spacing-output">44 mm</output></span>
+            <input id="spacing" class="slider" aria-label="Stacking pitch of the strata in millimetres" type="range" min="36" max="72" step="1" value="44">
             <span class="range-extents"><span>36</span><span>72</span></span>
           </label>
 
           <div class="constraint-status" id="serie-status">
-            <strong>Série de cordon</strong><span id="serie-state">Série complète</span>
+            <strong data-fr="Série de cordon">Strip series</strong><span id="serie-state">Série complète</span>
           </div>
           <div class="constraint-status" id="constraint-status">
-            <strong>Imbrication</strong><span id="constraint-text">Toutes les courbures sont libres</span>
+            <strong data-fr="Imbrication">Nesting</strong><span id="constraint-text">Toutes les courbures sont libres</span>
           </div>
 
           <div class="mode-block">
-            <span class="block-label" id="vue-label">Point de vue</span>
+            <span class="block-label" id="vue-label" data-fr="Point de vue">Viewpoint</span>
             <div class="segmented-control" role="group" aria-labelledby="vue-label">
               <button id="vue-perspective" type="button" aria-pressed="true">Perspective</button>
-              <button id="vue-elevation" type="button" aria-pressed="false">Élévation</button>
+              <button id="vue-elevation" type="button" aria-pressed="false" data-fr="Élévation">Elevation</button>
             </div>
 
-            <span class="block-label" id="mode-label" style="margin-top:18px">Rendu</span>
+            <span class="block-label" id="mode-label" style="margin-top:18px" data-fr="Rendu">Rendering</span>
             <div class="segmented-control" role="group" aria-labelledby="mode-label">
-              <button id="mode-line" type="button" aria-pressed="true">Trait</button>
-              <button id="mode-light" type="button" aria-pressed="false">Lumière</button>
+              <button id="mode-line" type="button" aria-pressed="true" data-fr="Trait">Line</button>
+              <button id="mode-light" type="button" aria-pressed="false" data-fr="Lumière">Light</button>
             </div>
 
-            <p class="panel-note">Les sept halos correspondent aux sept longueurs de cordon
-            COB coupables au pas de 25 mm, de 18 à 28 segments. Le client choisit dans
-            cette série, jamais un diamètre libre.</p>
+            <p class="panel-note" data-fr="Les sept halos correspondent aux sept longueurs de cordon COB coupables au pas de 25 mm, de 18 à 28 segments. Le client choisit dans cette série, jamais un diamètre libre.">The seven halos match the seven COB strip lengths, cuttable every 25 mm, from 18 to 28 segments. The client chooses within that series, never a free diameter.</p>
 
             <div class="iteration-row">
-              <label class="block-label" for="iteration">Itération</label>
+              <label class="block-label" for="iteration" data-fr="Itération">Iteration</label>
               <input id="iteration" type="number" inputmode="numeric" min="1" max="99" value="18">
             </div>
           </div>
@@ -410,16 +430,16 @@
           <div class="panel-actions">
             <button type="button" class="ghost-button hasard" id="hasard">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l8 10h4M4 17h4l2-2.5M16 7h4M18 5l2 2-2 2M18 15l2 2-2 2"></path></svg>
-              <span>Proposer</span>
+              <span data-fr="Proposer">Suggest</span>
             </button>
-            <button type="button" class="ghost-button" id="reset">Réinitialiser</button>
+            <button type="button" class="ghost-button" id="reset" data-fr="Réinitialiser">Reset</button>
             <button type="button" class="ghost-button" id="share">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a4 4 0 0 0 5.7.4l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 11a4 4 0 0 0-5.7-.4l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>
-              <span>Copier le lien</span>
+              <span data-fr="Copier le lien">Copy the link</span>
             </button>
             <button type="button" class="capture-button" id="capture">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"></path></svg>
-              <span>Capturer le résultat</span>
+              <span data-fr="Capturer le résultat">Capture the result</span>
             </button>
           </div>
           <p class="famille" id="famille"></p>
@@ -428,7 +448,7 @@
       </div>
     </section>
 
-    <footer><p>LES 7 RAISONS</p><span>Nature · lumière · matière</span></footer>
+    <footer><p>LES 7 RAISONS</p><span data-fr="Nature · lumière · matière">Nature · light · material</span></footer>
   </main>
 
   <script>
@@ -460,7 +480,87 @@
        devient « halo ». Changer les quatre valeurs ci-dessous suffit à
        renommer la pièce partout, panneau et dessin compris.
        Autres pistes : couronne · anneau · nimbe · auréole. */
-    const LEX = { ring: "halo", RING: "HALO", shell: "coupole", SHELL: "COUPOLE" };
+    /* ---------------------------------------------------------------- langue
+       L'anglais est ecrit dans le HTML, le francais vit dans les attributs
+       data-fr. Les chaines fabriquees ici passent par le dictionnaire DICO.
+       La langue vient de ?lang= dans l'URL, sinon du choix memorise, sinon EN. */
+    const LEXIQUES = {
+      fr: { ring: "halo", Ring: "Halo", RING: "HALO", shell: "coupole", Shell: "Coupole", SHELL: "COUPOLE" },
+      en: { ring: "halo", Ring: "Halo", RING: "HALO", shell: "dome",    Shell: "Dome",    SHELL: "DOME" }
+    };
+    const DICO = {
+      fr: {
+        perspective: "PERSPECTIVE", elevation: "ÉLÉVATION",
+        vueParam: "VUE PARAMÉTRIQUE", elevParam: "ÉLÉVATION PARAMÉTRIQUE",
+        iteration: "ITÉRATION", projet: "PROJET", configuration: "CONFIGURATION",
+        role: "LIGHTING & PARAMETRIC DESIGNER",
+        cartoucheOutil: (L2) => `CONFIGURATEUR ${L2.SHELL}S + ${L2.RING}S`,
+        cartoucheConf: (L2) => `7 ${L2.SHELL}S · 7 ${L2.RING}S`,
+        cartouchePas: (pas, dmax) => `PAS ${pas} MM · Ø MAX ${dmax} MM · SANS MÂT NI MOYEU APPARENT`,
+        cartoucheEchelle: (e) => `ÉCHELLE 1:${e} · SEPT HALOS COUPABLES AU PAS COB DE 25 MM · APPUI PLAT SUR TOUTE LA LARGEUR DU HALO`,
+        segCourbe: "COURBE", segBridee: " · BRIDÉE", seg: "SEG",
+        choisirStrate: (n) => `Sélectionner la strate ${n}`,
+        echelle: (e) => `Échelle 1:${e}`,
+        pas: (v) => `Pas ${v} mm`,
+        serieComplete: "Série complète — les sept longueurs de cordon sont utilisées",
+        serieDouble: (n) => `${n} longueur${n > 1 ? "s" : ""} de cordon en double`,
+        libre: "Toutes les courbures sont libres",
+        bridees: (n) => `${n} courbe${n > 1 ? "s" : ""} bridée${n > 1 ? "s" : ""}`,
+        recouvertes: (n) => `${n} strate${n > 1 ? "s" : ""} recouverte${n > 1 ? "s" : ""} par celle du dessus`,
+        proposition: (nom) => `Proposition · ${nom}`,
+        familles: ["Équilibre central", "Masse haute", "Masse basse", "Double lobe", "Turbulence"],
+        lienCopie: "Lien de cette configuration copié.",
+        lienRefuse: "Copie refusée par le navigateur — l’adresse de la page contient la configuration.",
+        capturer: "Capturer le résultat",
+        preparation: "Préparation…",
+        pngImpossible: "Le navigateur n’a pas pu produire le PNG.",
+        captureOk: (w, h) => `Capture ${w}×${h} px téléchargée.`,
+        captureKo: "La capture n’a pas pu être créée.",
+        conversionKo: "Le dessin n’a pas pu être converti en image.",
+        ariaHalo: (L2) => `Choix du ${L2.ring} parmi les sept longueurs de cordon coupables`,
+        titre: "Les 7 Raisons — Configurateur de strates"
+      },
+      en: {
+        perspective: "PERSPECTIVE", elevation: "ELEVATION",
+        vueParam: "PARAMETRIC VIEW", elevParam: "PARAMETRIC ELEVATION",
+        iteration: "ITERATION", projet: "PROJECT", configuration: "CONFIGURATION",
+        role: "LIGHTING & PARAMETRIC DESIGNER",
+        cartoucheOutil: (L2) => `${L2.SHELL}S + ${L2.RING}S CONFIGURATOR`,
+        cartoucheConf: (L2) => `7 ${L2.SHELL}S · 7 ${L2.RING}S`,
+        cartouchePas: (pas, dmax) => `PITCH ${pas} MM · Ø MAX ${dmax} MM · NO VISIBLE MAST OR HUB`,
+        cartoucheEchelle: (e) => `SCALE 1:${e} · SEVEN HALOS CUTTABLE ON THE 25 MM COB PITCH · FLAT BEARING ACROSS THE FULL HALO WIDTH`,
+        segCourbe: "CURVE", segBridee: " · CONSTRAINED", seg: "SEG",
+        choisirStrate: (n) => `Select stratum ${n}`,
+        echelle: (e) => `Scale 1:${e}`,
+        pas: (v) => `Pitch ${v} mm`,
+        serieComplete: "Full series — all seven strip lengths are used",
+        serieDouble: (n) => `${n} strip length${n > 1 ? "s" : ""} used twice`,
+        libre: "All curves are free",
+        bridees: (n) => `${n} curve${n > 1 ? "s" : ""} constrained`,
+        recouvertes: (n) => `${n} ${n > 1 ? "strata" : "stratum"} covered by the one above`,
+        proposition: (nom) => `Proposal · ${nom}`,
+        familles: ["Centred balance", "Weight above", "Weight below", "Twin lobe", "Turbulence"],
+        lienCopie: "Link to this configuration copied.",
+        lienRefuse: "The browser refused to copy — the page address holds the configuration.",
+        capturer: "Capture the result",
+        preparation: "Preparing…",
+        pngImpossible: "The browser could not produce the PNG.",
+        captureOk: (w, h) => `Capture ${w}×${h} px downloaded.`,
+        captureKo: "The capture could not be created.",
+        conversionKo: "The drawing could not be converted into an image.",
+        ariaHalo: (L2) => `Choose the ${L2.ring} among the seven cuttable strip lengths`,
+        titre: "Les 7 Raisons — Strata configurator"
+      }
+    };
+    function langueVoulue() {
+      const q = /[?&]lang=(fr|en)\b/i.exec(location.search);
+      if (q) return q[1].toLowerCase();
+      try { const m = localStorage.getItem("l7r-lang"); if (m === "fr" || m === "en") return m; } catch (e) {}
+      return "en";
+    }
+    let LANG = langueVoulue();
+    let LEX = LEXIQUES[LANG];
+    let L = DICO[LANG];
 
     /* halo = index dans HALO_D. Départ : une strate par diamètre, série
        complète, la plus grande coupole au centre du nuage. */
@@ -627,11 +727,11 @@
       gChrome.append(
         el("text", { x: margin, y: kickerY, class: "svg-kicker", "font-size": compact ? 9 : 12 },
            compact
-             ? (vue === "perspective" ? "LES 7 RAISONS · PERSPECTIVE" : "LES 7 RAISONS · ÉLÉVATION")
-             : (vue === "perspective" ? "LES 7 RAISONS · VUE PARAMÉTRIQUE"
-                                      : "LES 7 RAISONS · ÉLÉVATION PARAMÉTRIQUE")),
+             ? (vue === "perspective" ? `LES 7 RAISONS · ${L.perspective}` : `LES 7 RAISONS · ${L.elevation}`)
+             : (vue === "perspective" ? `LES 7 RAISONS · ${L.vueParam}`
+                                      : `LES 7 RAISONS · ${L.elevParam}`)),
         el("text", { x: W - margin, y: kickerY, "text-anchor": "end", class: "svg-meta", "font-size": compact ? 9 : 11 },
-           `ITÉRATION ${pad2(iteration)}`),
+           `${L.iteration} ${pad2(iteration)}`),
         el("line", { x1: margin, y1: ruleY, x2: W - margin, y2: ruleY, class: "svg-rule" })
       );
       if (showBlock) {
@@ -645,8 +745,8 @@
         const maxD = Math.max(...strata.map(s => s.cupola));
         const rowsBlock = [
           [c(0), "STUDIO INCANDESCENCE SAS", "ALEXANDRE KOLINKA", "LIGHTING & PARAMETRIC DESIGNER"],
-          [c(1), "PROJET", "LES 7 RAISONS", `CONFIGURATEUR ${LEX.SHELL}S + ${LEX.RING}S`],
-          [c(2), "CONFIGURATION", `7 ${LEX.SHELL}S · 7 ${LEX.RING}S`, `PAS ${hubSpacing} MM · Ø MAX ${maxD} MM · SANS MÂT NI MOYEU APPARENT`]
+          [c(1), L.projet, "LES 7 RAISONS", L.cartoucheOutil(LEX)],
+          [c(2), L.configuration, L.cartoucheConf(LEX), L.cartouchePas(hubSpacing, maxD)]
         ];
         for (const [x, label, main, small] of rowsBlock) {
           gBlock.append(
@@ -656,7 +756,7 @@
           );
         }
         gBlock.appendChild(el("text", { x: margin, y: blockTop + 90, class: "tb-small", "font-size": 8 },
-          `ÉCHELLE 1:${(1 / scale).toFixed(1)} · SEPT HALOS COUPABLES AU PAS COB DE 25 MM · APPUI PLAT SUR TOUTE LA LARGEUR DU HALO`));
+          L.cartoucheEchelle((1 / scale).toFixed(1))));
       }
 
       /* --- géométrie -------------------------------------------- */
@@ -764,23 +864,23 @@
           g.append(
             el("text", { x: rightX, y: y - 4, "text-anchor": "end", class: "dim-text", "font-size": 10 }, `Ø ${r.cupola}`),
             el("text", { x: rightX, y: y + 13, "text-anchor": "end", class: "dim-sub", "font-size": 8 },
-               `${LEX.RING} Ø ${HALO_D[r.halo]} · ${HALO_SEGMENTS[r.halo]} SEG · COURBE ${r.arc}${r.clamped ? " · BRIDÉE" : ""}`)
+               `${LEX.RING} Ø ${HALO_D[r.halo]} · ${HALO_SEGMENTS[r.halo]} ${L.seg} · ${L.segCourbe} ${r.arc}${r.clamped ? L.segBridee : ""}`)
           );
         } else {
           g.append(el("text", { x: rightX, y: y + 4, "text-anchor": "end", class: "dim-text", "font-size": 10 },
-            `Ø ${r.cupola} · ${LEX.RING} ${HALO_D[r.halo]}${r.clamped ? " · BRIDÉE" : ""}`));
+            `Ø ${r.cupola} · ${LEX.RING} ${HALO_D[r.halo]}${r.clamped ? L.segBridee : ""}`));
         }
         const hit = el("rect", {
           x: margin, y: y - Math.max(14, donutH), width: W - margin * 2, height: Math.max(28, donutH * 2),
           class: "hit-strate", role: "button", tabindex: "-1",
-          "aria-label": `Sélectionner la strate ${r.id}`
+          "aria-label": L.choisirStrate(r.id)
         });
         hit.addEventListener("click", () => { active = r.id; render(); });
         g.appendChild(hit);
         gGeometry.appendChild(g);
       });
 
-      byId("caption-scale").textContent = `Échelle 1:${(1 / scale).toFixed(1)}`;
+      byId("caption-scale").textContent = L.echelle((1 / scale).toFixed(1));
     }
 
     /* =============================================== RENDU DU PANNEAU */
@@ -835,11 +935,11 @@
       byId("vue-elevation").setAttribute("aria-pressed", String(vue === "elevation"));
       const used = new Set(strata.map(x => x.halo)).size;
       byId("serie-state").textContent = used === 7
-        ? "Série complète — les sept longueurs de cordon sont utilisées"
-        : `${7 - used} longueur${used < 6 ? "s" : ""} de cordon en double`;
+        ? L.serieComplete
+        : L.serieDouble(7 - used);
       byId("serie-status").classList.toggle("active", used < 7);
       byId("drawing-panel").className = `drawing-panel ${mode}`;
-      byId("caption-spacing").textContent = `Pas ${hubSpacing} mm`;
+      byId("caption-spacing").textContent = L.pas(hubSpacing);
     }
 
     function renderConstraint(rows) {
@@ -848,9 +948,9 @@
       status.classList.toggle("active", count > 0);
       const nest = rows.filter((r, i) => i > 0 && r.radius < rows[i - 1].radius).length;
       byId("constraint-text").textContent = count
-        ? `${count} courbe${count > 1 ? "s" : ""} bridée${count > 1 ? "s" : ""}`
+        ? L.bridees(count)
         : nest
-          ? `${nest} strate${nest > 1 ? "s" : ""} recouverte${nest > 1 ? "s" : ""} par celle du dessus`
+          ? L.recouvertes(nest)
           : "Toutes les courbures sont libres";
     }
 
@@ -989,7 +1089,7 @@
         };
       });
       hubSpacing = clamp(pas, 36, 72);
-      byId("famille").textContent = `Proposition · ${f.nom}`;
+      byId("famille").textContent = L.proposition(L.familles[FAMILLES.indexOf(f)]);
       byId("capture-status").textContent = "";
       render();
     }
@@ -1011,11 +1111,11 @@
       try {
         await navigator.clipboard.writeText(url);
         status.className = "capture-status success";
-        status.textContent = "Lien de cette configuration copié.";
+        status.textContent = L.lienCopie;
       } catch (error) {
         try { history.replaceState(null, "", encodeState()); } catch (e) { /* ignore */ }
         status.className = "capture-status";
-        status.textContent = "Copie refusée par le navigateur — l’adresse de la page contient la configuration.";
+        status.textContent = L.lienRefuse;
       }
     });
 
@@ -1027,9 +1127,9 @@
       const fail = message => {
         status.className = "capture-status error";
         status.textContent = message;
-        label.textContent = "Capturer le résultat";
+        label.textContent = L.capturer;
       };
-      label.textContent = "Préparation…";
+      label.textContent = L.preparation;
       status.className = "capture-status";
       status.textContent = "";
 
@@ -1068,7 +1168,7 @@
             context.drawImage(image, 0, 0, outW, outH);
             URL.revokeObjectURL(url);
             canvas.toBlob(png => {
-              if (!png) return fail("Le navigateur n’a pas pu produire le PNG.");
+              if (!png) return fail(L.pngImpossible);
               const link = document.createElement("a");
               const href = URL.createObjectURL(png);
               link.download = `les-7-raisons-iteration-${pad2(iteration)}.png`;
@@ -1078,21 +1178,21 @@
               link.remove();
               setTimeout(() => URL.revokeObjectURL(href), 1000);
               status.className = "capture-status success";
-              status.textContent = `Capture ${outW}×${outH} px téléchargée.`;
-              label.textContent = "Capturer le résultat";
+              status.textContent = L.captureOk(outW, outH);
+              label.textContent = L.capturer;
             }, "image/png");
           } catch (error) {
-            fail("La capture n’a pas pu être créée.");
+            fail(L.captureKo);
           }
         };
         image.onerror = () => {
           if (url) URL.revokeObjectURL(url);
-          fail("Le dessin n’a pas pu être converti en image.");
+          fail(L.conversionKo);
         };
         image.src = url;
       } catch (error) {
         if (url) URL.revokeObjectURL(url);
-        fail("La capture n’a pas pu être créée.");
+        fail(L.captureKo);
       }
     });
 
@@ -1105,10 +1205,37 @@
     }
     window.addEventListener("hashchange", () => { if (decodeState(location.hash)) render(); });
 
-    document.querySelectorAll("[data-lex]").forEach(node => {
-      node.textContent = LEX[node.dataset.lex];
+    /* ------------------------------------------------------ bascule EN / FR
+       Le contenu anglais ecrit dans le HTML sert de reference : on le met de
+       cote une seule fois, avant toute permutation. */
+    const noeudsLangue = [].slice.call(document.querySelectorAll("[data-fr]"));
+    noeudsLangue.forEach(n => n.setAttribute("data-en", n.innerHTML));
+
+    function appliquerLangue(lang) {
+      if (lang !== "fr") lang = "en";
+      LANG = lang; LEX = LEXIQUES[lang]; L = DICO[lang];
+      document.documentElement.lang = lang;
+      document.title = L.titre;
+      noeudsLangue.forEach(n => {
+        n.innerHTML = n.getAttribute(lang === "fr" ? "data-fr" : "data-en");
+      });
+      document.querySelectorAll("[data-lex]").forEach(node => {
+        node.textContent = LEX[node.dataset.lex];
+      });
+      controls.halo.setAttribute("aria-label", L.ariaHalo(LEX));
+      document.querySelectorAll(".lang-switch button").forEach(b => {
+        b.classList.toggle("on", b.dataset.lang === lang);
+        b.setAttribute("aria-pressed", b.dataset.lang === lang);
+      });
+      try { localStorage.setItem("l7r-lang", lang); } catch (e) {}
+      render();
+    }
+    document.querySelectorAll(".lang-switch button").forEach(b => {
+      b.addEventListener("click", () => appliquerLangue(b.dataset.lang));
     });
-    controls.halo.setAttribute("aria-label", `Choix du ${LEX.ring} parmi les sept longueurs de cordon coupables`);
+    /* La page d'accueil pilote la langue du configurateur embarque. */
+    window.__setLang = appliquerLangue;
+    appliquerLangue(LANG);
 
     defaultHash = encodeState();     // empreinte de la configuration d'origine
     decodeState(location.hash);
